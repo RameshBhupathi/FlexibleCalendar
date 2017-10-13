@@ -37,11 +37,13 @@ public class MonthViewPagerAdapter extends PagerAdapter {
     private int startDayOfTheWeek;
     private boolean decorateDatesOutsideMonth;
     private boolean disableAutoDateSelection;
+    private boolean disableTodaySelection;
 
     public MonthViewPagerAdapter(Context context, int year, int month,
                                  FlexibleCalendarGridAdapter.OnDateCellItemClickListener onDateCellItemClickListener,
-                                 boolean showDatesOutsideMonth, boolean decorateDatesOutsideMonth, int startDayOfTheWeek,
-                                 boolean disableAutoDateSelection) {
+                                 boolean showDatesOutsideMonth, boolean decorateDatesOutsideMonth,
+                                 int startDayOfTheWeek,
+                                 boolean disableAutoDateSelection, boolean disableTodaySelection) {
         this.context = context;
         this.dateAdapters = new ArrayList<>(VIEWS_IN_PAGER);
         this.onDateCellItemClickListener = onDateCellItemClickListener;
@@ -49,6 +51,7 @@ public class MonthViewPagerAdapter extends PagerAdapter {
         this.decorateDatesOutsideMonth = decorateDatesOutsideMonth;
         this.startDayOfTheWeek = startDayOfTheWeek;
         this.disableAutoDateSelection = disableAutoDateSelection;
+        this.disableTodaySelection = disableTodaySelection;
         initializeDateAdapters(year, month);
     }
 
@@ -64,7 +67,9 @@ public class MonthViewPagerAdapter extends PagerAdapter {
         }
 
         for (int i = 0; i < VIEWS_IN_PAGER - 1; i++) {
-            dateAdapters.add(new FlexibleCalendarGridAdapter(context, year, month, showDatesOutsideMonth, decorateDatesOutsideMonth, startDayOfTheWeek, disableAutoDateSelection));
+            dateAdapters.add(new FlexibleCalendarGridAdapter(context, year, month, showDatesOutsideMonth,
+                    decorateDatesOutsideMonth, startDayOfTheWeek,
+                    disableAutoDateSelection, disableTodaySelection));
             if (month == 11) {
                 year++;
                 month = 0;
@@ -72,7 +77,9 @@ public class MonthViewPagerAdapter extends PagerAdapter {
                 month++;
             }
         }
-        dateAdapters.add(new FlexibleCalendarGridAdapter(context, pYear, pMonth, showDatesOutsideMonth, decorateDatesOutsideMonth, startDayOfTheWeek, disableAutoDateSelection));
+        dateAdapters.add(new FlexibleCalendarGridAdapter(context, pYear, pMonth, showDatesOutsideMonth,
+                decorateDatesOutsideMonth, startDayOfTheWeek,
+                disableAutoDateSelection, disableTodaySelection));
     }
 
     public void refreshDateAdapters(int position, SelectedDateItem selectedDateItem, boolean refreshAll) {
@@ -212,6 +219,13 @@ public class MonthViewPagerAdapter extends PagerAdapter {
             }
         }
 
+    }
+
+    public void setDisableTodaySelection(boolean disableTodaySelection) {
+        this.disableTodaySelection = disableTodaySelection;
+        for (FlexibleCalendarGridAdapter adapter : dateAdapters) {
+            adapter.setDisableTodaySelection(disableTodaySelection);
+        }
     }
 
 

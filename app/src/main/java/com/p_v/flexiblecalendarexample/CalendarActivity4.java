@@ -2,6 +2,7 @@ package com.p_v.flexiblecalendarexample;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,9 +13,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.p_v.flexiblecalendar.FlexibleCalendarView;
+import com.p_v.flexiblecalendar.entity.SelectedDateItem;
 import com.p_v.flexiblecalendar.view.BaseCellView;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Locale;
 
 public class CalendarActivity4 extends ActionBarActivity {
@@ -34,7 +40,7 @@ public class CalendarActivity4 extends ActionBarActivity {
 
         monthTextView = (TextView) findViewById(R.id.month_text_view);
 
-        Calendar cal = Calendar.getInstance();
+        final Calendar cal = Calendar.getInstance();
         cal.set(calendarView.getSelectedDateItem().getYear(), calendarView.getSelectedDateItem().getMonth(), 1);
         monthTextView.setText(cal.getDisplayName(Calendar.MONTH,
                 Calendar.LONG, Locale.ENGLISH) + " " + calendarView.getSelectedDateItem().getYear());
@@ -63,6 +69,42 @@ public class CalendarActivity4 extends ActionBarActivity {
             }
         });
         calendarView.setShowDatesOutsideMonth(true);
+        calendarView.setDisableAutoDateSelection(true);
+        calendarView.setDisableTodaySelection(true);
+
+        calendarView.setOnDateClickListener(new FlexibleCalendarView.OnDateClickListener() {
+            @Override
+            public void onDateClick(int year, int month, int day) {
+
+            }
+
+            @Override
+            public void onSelectedDates(List<SelectedDateItem> selectedDateItems) {
+                Log.v("onSelectedDates", "" + selectedDateItems.size());
+                /*if (selectedDateItems.size() == 2) {
+                    Calendar calender1 = Calendar.getInstance();
+                    SelectedDateItem selectedDateItemOne = selectedDateItems.get(0);
+                    calender1.set(selectedDateItemOne.getYear(), selectedDateItemOne.getMonth(),
+                            selectedDateItemOne.getDay());
+
+                    Calendar calender2 = Calendar.getInstance();
+                    SelectedDateItem selectedDateItemTwo = selectedDateItems.get(1);
+                    calender1.set(selectedDateItemTwo.getYear(), selectedDateItemTwo.getMonth(),
+                            selectedDateItemTwo.getDay());
+
+                    List<Date> datesBetween = getDatesBetweenUsingJava7(calender2.getTime(), calender1.getTime());
+                    Log.v("selected datesBetween", "datesBetween " + datesBetween.size());
+                    if (datesBetween.size() > 0) {
+                        for (Date selectedDate : datesBetween) {
+                            Log.v("selected datetime", "" + selectedDate.toString());
+                            //calendarView.setSelectedDates(selectedDate);
+                            calendarView.setUserSelectedDate(selectedDate);
+                        }
+                    }
+
+                }*/
+            }
+        });
 
         calendarView.setCalendarView(new FlexibleCalendarView.CalendarView() {
             @Override
@@ -70,7 +112,11 @@ public class CalendarActivity4 extends ActionBarActivity {
                 BaseCellView cellView = (BaseCellView) convertView;
                 if (cellView == null) {
                     LayoutInflater inflater = LayoutInflater.from(CalendarActivity4.this);
-                    cellView = (BaseCellView) inflater.inflate(R.layout.calendar3_date_cell_view, null);
+                    cellView = (BaseCellView) inflater.inflate(R.layout.calendar4_date_cell_view, null);
+                }
+                if (cellType == BaseCellView.OUTSIDE_MONTH) {
+                    cellView.setTextColor(getResources().getColor(R.color.white));
+                    cellView.setBackgroundColor(getResources().getColor(R.color.gray));
                 }
                 return cellView;
             }
@@ -85,6 +131,7 @@ public class CalendarActivity4 extends ActionBarActivity {
                     cellView.setTextColor(getResources().getColor(android.R.color.holo_orange_light));
                     cellView.setTextSize(18);
                 }
+
                 return cellView;
             }
 
@@ -123,5 +170,22 @@ public class CalendarActivity4 extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public static List<Date> getDatesBetweenUsingJava7(
+            Date startDate, Date endDate) {
+        List<Date> datesInRange = new ArrayList<>();
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(startDate);
+
+        Calendar endCalendar = new GregorianCalendar();
+        endCalendar.setTime(endDate);
+
+        while (calendar.before(endCalendar)) {
+            Date result = calendar.getTime();
+            datesInRange.add(result);
+            calendar.add(Calendar.DATE, 1);
+        }
+        return datesInRange;
     }
 }

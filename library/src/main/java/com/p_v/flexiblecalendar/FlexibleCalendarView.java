@@ -70,6 +70,7 @@ public class FlexibleCalendarView extends LinearLayout implements
     private boolean showDatesOutsideMonth;
     private boolean decorateDatesOutsideMonth;
     private boolean disableAutoDateSelection;
+    private boolean disableTodaySelection;
     /**
      * Reset adapters flag used internally
      * for tracking go to current month
@@ -84,6 +85,7 @@ public class FlexibleCalendarView extends LinearLayout implements
      * Internal flag to override the computed date on month change
      */
     private boolean shouldOverrideComputedDate;
+
     /**
      * First day of the week in the calendar
      */
@@ -137,7 +139,8 @@ public class FlexibleCalendarView extends LinearLayout implements
         monthViewPager.setBackgroundResource(monthViewBackground);
         monthViewPager.setNumOfRows(showDatesOutsideMonth ? 6 : FlexibleCalendarHelper.getNumOfRowsForTheMonth(displayYear, displayMonth, startDayOfTheWeek));
         monthViewPagerAdapter = new MonthViewPagerAdapter(context, displayYear, displayMonth, this,
-                showDatesOutsideMonth, decorateDatesOutsideMonth, startDayOfTheWeek, disableAutoDateSelection);
+                showDatesOutsideMonth, decorateDatesOutsideMonth, startDayOfTheWeek,
+                disableAutoDateSelection, disableTodaySelection);
         monthViewPagerAdapter.setMonthEventFetcher(this);
         monthViewPagerAdapter.setSpacing(monthDayHorizontalSpacing, monthDayVerticalSpacing);
 
@@ -147,14 +150,17 @@ public class FlexibleCalendarView extends LinearLayout implements
         monthInfPagerAdapter = new InfinitePagerAdapter(monthViewPagerAdapter);
         //Initializing with the offset value
         lastPosition = monthInfPagerAdapter.getRealCount() * 100;
+
         monthViewPager.setAdapter(monthInfPagerAdapter);
         monthViewPager.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
         monthViewPager.addOnPageChangeListener(new MonthChangeListener());
 
         //initialize with the current selected item
-        selectedDateItem = new SelectedDateItem(displayYear, displayMonth, startDisplayDay);
-        monthViewPagerAdapter.setSelectedItem(selectedDateItem);
+        if (!disableTodaySelection) {
+            selectedDateItem = new SelectedDateItem(displayYear, displayMonth, startDisplayDay);
+            monthViewPagerAdapter.setSelectedItem(selectedDateItem);
+        }
 
         this.addView(monthViewPager);
     }
@@ -177,7 +183,7 @@ public class FlexibleCalendarView extends LinearLayout implements
 
             showDatesOutsideMonth = a.getBoolean(R.styleable.FlexibleCalendarView_showDatesOutsideMonth, false);
             decorateDatesOutsideMonth = a.getBoolean(R.styleable.FlexibleCalendarView_decorateDatesOutsideMonth, false);
-            disableAutoDateSelection = a.getBoolean(R.styleable.FlexibleCalendarView_disableAutoDateSelection, false);
+            disableTodaySelection = a.getBoolean(R.styleable.FlexibleCalendarView_disableTodaySelection, false);
 
             startDayOfTheWeek = a.getInt(R.styleable.FlexibleCalendarView_startDayOfTheWeek, Calendar.SUNDAY);
             if (startDayOfTheWeek < 1 || startDayOfTheWeek > 7) {
@@ -298,6 +304,13 @@ public class FlexibleCalendarView extends LinearLayout implements
 
         if (onDateClickListener != null) {
             onDateClickListener.onDateClick(selectedItem.getYear(), selectedItem.getMonth(), selectedItem.getDay());
+        }
+    }
+
+    @Override
+    public void selectedDates(List<SelectedDateItem> selectedDateItems) {
+        if (onDateClickListener != null) {
+            onDateClickListener.onSelectedDates(selectedDateItems);
         }
     }
 
@@ -576,6 +589,28 @@ public class FlexibleCalendarView extends LinearLayout implements
     }
 
     /**
+     * Get the Today date selection flag
+     *
+     * @return true if the todayAutoSelction is enabled, false otherwise
+     */
+    public boolean getdisableTodaySelection() {
+        return disableTodaySelection;
+    }
+
+    /**
+     * Flag to decorate dates outside the month. Default value is false which will only decorate
+     * dates within the month
+     *
+     * @param decorateDatesOutsideMonth set true to decorate the dates outside month
+     */
+    public void setDisableTodaySelection(boolean disableTodaySelection) {
+        this.disableTodaySelection = disableTodaySelection;
+        monthViewPager.invalidate();
+        monthViewPagerAdapter.setDisableTodaySelection(disableTodaySelection);
+    }
+
+
+    /**
      * Get the decorate dates outside month flag
      *
      * @return true if the decorateDatesOutsideMonth is enabled, false otherwise
@@ -727,6 +762,14 @@ public class FlexibleCalendarView extends LinearLayout implements
 
     }
 
+    public void setUserSelectedDate(Date selectedDate) {
+        SelectedDateItem selectedDateItem=new SelectedDateItem(selectedDate.getYear(),
+                selectedDate.getMonth(),selectedDate.getDay());
+        monthViewPagerAdapter
+                .getMonthAdapterAtPosition(lastPosition % MonthViewPagerAdapter.VIEWS_IN_PAGER)
+                .setSelectedItem(selectedDateItem, true, true);
+    }
+
     /**
      * Customize Calendar using this interface
      */
@@ -795,6 +838,8 @@ public class FlexibleCalendarView extends LinearLayout implements
          * @param year  selected year
          */
         void onDateClick(int year, int month, int day);
+
+        void onSelectedDates(List<SelectedDateItem> selectedDateItems);
     }
 
     /**
