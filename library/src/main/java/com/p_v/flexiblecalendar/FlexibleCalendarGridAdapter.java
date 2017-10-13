@@ -355,6 +355,7 @@ class FlexibleCalendarGridAdapter extends BaseAdapter {
                     isRangeSelected = true;
                 }
             }
+
             notifyDataSetChanged();
 
             if (onDateCellItemClickListener != null) {
