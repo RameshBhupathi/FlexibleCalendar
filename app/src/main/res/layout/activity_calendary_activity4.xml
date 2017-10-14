@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context="com.p_v.flexiblecalendarexample.CalendarActivity4">
 
@@ -43,6 +44,8 @@
         android:id="@+id/calendar_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:enableRangeSelection="false"
+        app:disableTodaySelection="true"
         android:background="@android:color/darker_gray" />
 
     <Button

@@ -20,6 +20,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import static android.R.attr.type;
+
 /**
  * @author p-v
  */
@@ -41,18 +43,21 @@ class FlexibleCalendarGridAdapter extends BaseAdapter {
     private boolean decorateDatesOutsideMonth;
     private boolean disableAutoDateSelection;
     private boolean disableTodaySelection;
-    private static boolean  isRangeSelected;
+    private boolean enableRangeSelection;
+    private static boolean isRangeSelected;
 
 
     public FlexibleCalendarGridAdapter(Context context, int year, int month,
                                        boolean showDatesOutsideMonth, boolean decorateDatesOutsideMonth,
                                        int startDayOfTheWeek,
-                                       boolean disableAutoDateSelection, boolean disableTodaySelection) {
+                                       boolean disableAutoDateSelection, boolean disableTodaySelection,
+                                       boolean enableRangeSelection) {
         this.context = context;
         this.showDatesOutsideMonth = showDatesOutsideMonth;
         this.decorateDatesOutsideMonth = decorateDatesOutsideMonth;
         this.disableAutoDateSelection = disableAutoDateSelection;
-        this.disableTodaySelection = disableAutoDateSelection;
+        this.disableTodaySelection = disableTodaySelection;
+        this.enableRangeSelection = enableRangeSelection;
         initialize(year, month, startDayOfTheWeek);
         userSelectedDateItems = new ArrayList<>();
     }
@@ -111,12 +116,12 @@ class FlexibleCalendarGridAdapter extends BaseAdapter {
                         cellType = BaseCellView.SELECTED;
                     }
 
-                } /*else if (userSelectedDateItem != null && userSelectedDateItem.getYear() == year
+                } else if (userSelectedDateItem != null && userSelectedDateItem.getYear() == year
                         && userSelectedDateItem.getMonth() == month
                         && userSelectedDateItem.getDay() == day) {
                     //selected
                     cellType = BaseCellView.SELECTED;
-                }*/
+                }
 
 
             } else {
@@ -130,15 +135,21 @@ class FlexibleCalendarGridAdapter extends BaseAdapter {
             if (calendar.get(Calendar.YEAR) == year
                     && calendar.get(Calendar.MONTH) == month
                     && calendar.get(Calendar.DAY_OF_MONTH) == day) {
-                if (cellType == BaseCellView.SELECTED) {
-                    //today and selected
-                    if (!disableTodaySelection)
+                Log.i("TodaySelection", "before "+disableTodaySelection+" "+cellType);
+                if (!disableTodaySelection) {
+                    if (cellType == BaseCellView.SELECTED) {
+                        //today and selected
                         cellType = BaseCellView.SELECTED_TODAY;
-                } else {
-                    //today
-                    if (!disableTodaySelection)
+                    } else {
+                        //today
                         cellType = BaseCellView.TODAY;
-                }
+                    }
+                } else
+                    Log.i("TodaySelection", "Disabled");
+
+
+                Log.i("TodaySelection", " "+disableTodaySelection+" "+cellType);
+
             }
         }
 
@@ -274,6 +285,11 @@ class FlexibleCalendarGridAdapter extends BaseAdapter {
         this.notifyDataSetChanged();
     }
 
+    public void setEnableRangeSelection(boolean enableRangeSelection) {
+        this.enableRangeSelection = enableRangeSelection;
+        this.notifyDataSetChanged();
+    }
+
     public interface OnDateCellItemClickListener {
         void onDateClick(SelectedDateItem selectedItem);
 
@@ -303,56 +319,58 @@ class FlexibleCalendarGridAdapter extends BaseAdapter {
 
             if (disableAutoDateSelection) {
                 userSelectedDateItem = selectedItem;
-                Log.v("selected dates", "" + userSelectedDateItem.getDay());
-                if (userSelectedDateItems.contains(selectedItem)) {
-                    userSelectedDateItems.remove(selectedItem);
-                } else {
-                    if (userSelectedDateItems.size() > 2 && isRangeSelected) {
-                        userSelectedDateItems.clear();
+                if (enableRangeSelection) {
+                    Log.v("selected dates", "" + userSelectedDateItem.getDay());
+                    if (userSelectedDateItems.contains(selectedItem)) {
+                        userSelectedDateItems.remove(selectedItem);
+                    } else {
+                        if (userSelectedDateItems.size() > 2 && isRangeSelected) {
+                            userSelectedDateItems.clear();
+                        }
+                        userSelectedDateItems.add(selectedItem);
                     }
-                    userSelectedDateItems.add(selectedItem);
-                }
-                if (userSelectedDateItems.size() < 2)
-                    isRangeSelected = false;
+                    if (userSelectedDateItems.size() < 2)
+                        isRangeSelected = false;
 
-                Log.v("selected dates", "" + userSelectedDateItems.size());
-                if (userSelectedDateItems.size() == 2 && !isRangeSelected) {
-                    Calendar calender1 = Calendar.getInstance();
-                    SelectedDateItem selectedDateItemOne = userSelectedDateItems.get(0);
-                    calender1.set(selectedDateItemOne.getYear(), selectedDateItemOne.getMonth(),
-                            selectedDateItemOne.getDay());
+                    Log.v("selected dates", "" + userSelectedDateItems.size());
+                    if (userSelectedDateItems.size() == 2 && !isRangeSelected) {
+                        Calendar calender1 = Calendar.getInstance();
+                        SelectedDateItem selectedDateItemOne = userSelectedDateItems.get(0);
+                        calender1.set(selectedDateItemOne.getYear(), selectedDateItemOne.getMonth(),
+                                selectedDateItemOne.getDay());
 
-                    Calendar calender2 = Calendar.getInstance();
-                    SelectedDateItem selectedDateItemTwo = userSelectedDateItems.get(1);
-                    calender2.set(selectedDateItemTwo.getYear(), selectedDateItemTwo.getMonth(),
-                            selectedDateItemTwo.getDay());
-                    List<Calendar> datesBetween = null;
-                    if (calender1.after(calender2))
-                        datesBetween = getDatesBetweenUsingJava7(calender2.getTime(), calender1.getTime());
-                    else
-                        datesBetween = getDatesBetweenUsingJava7(calender1.getTime(), calender2.getTime());
-                    Log.v("selected datesBetween", "datesBetween " + datesBetween.size());
+                        Calendar calender2 = Calendar.getInstance();
+                        SelectedDateItem selectedDateItemTwo = userSelectedDateItems.get(1);
+                        calender2.set(selectedDateItemTwo.getYear(), selectedDateItemTwo.getMonth(),
+                                selectedDateItemTwo.getDay());
+                        List<Calendar> datesBetween = null;
+                        if (calender1.after(calender2))
+                            datesBetween = getDatesBetweenUsingJava7(calender2.getTime(), calender1.getTime());
+                        else
+                            datesBetween = getDatesBetweenUsingJava7(calender1.getTime(), calender2.getTime());
+                        Log.v("selected datesBetween", "datesBetween " + datesBetween.size());
 
-                    if (datesBetween.size() > 0) {
-                        for (Calendar cal : datesBetween) {
+                        if (datesBetween.size() > 0) {
+                            for (Calendar cal : datesBetween) {
                            /* Calendar cal=Calendar.getInstance();
                             cal.setTime(selectedDate);*/
-                            Log.v("selected datesBetween", "datesBetween " + cal.toString());
+                                Log.v("selected datesBetween", "datesBetween " + cal.toString());
 
                           /*  Log.v("selected datesBetween", "datesBetween " + selectedDate.getYear()+" m:"+
                             selectedDate.getMonth()+" d: "+selectedDate.getDay());*/
 
-                            Log.v("selected datesBetween", "calendar " + cal.get(Calendar.YEAR) + " m:" +
-                                    cal.get(Calendar.MONTH) + " d: " + cal.get(Calendar.DAY_OF_MONTH));
+                                Log.v("selected datesBetween", "calendar " + cal.get(Calendar.YEAR) + " m:" +
+                                        cal.get(Calendar.MONTH) + " d: " + cal.get(Calendar.DAY_OF_MONTH));
 
-                            SelectedDateItem selectedDateItem = new SelectedDateItem(cal.get(Calendar.YEAR),
-                                    cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
+                                SelectedDateItem selectedDateItem = new SelectedDateItem(cal.get(Calendar.YEAR),
+                                        cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
 
-                            userSelectedDateItems.add(selectedDateItem);
-                            //calendarView.setSelectedDates(selectedDate);
+                                userSelectedDateItems.add(selectedDateItem);
+                                //calendarView.setSelectedDates(selectedDate);
+                            }
                         }
+                        isRangeSelected = true;
                     }
-                    isRangeSelected = true;
                 }
             }
 

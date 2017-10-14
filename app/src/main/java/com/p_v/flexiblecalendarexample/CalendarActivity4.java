@@ -65,12 +65,12 @@ public class CalendarActivity4 extends ActionBarActivity {
                 cal.set(year, month, 1);
                 monthTextView.setText(cal.getDisplayName(Calendar.MONTH,
                         Calendar.LONG, Locale.ENGLISH) + " " + year);
-
             }
         });
         calendarView.setShowDatesOutsideMonth(true);
         calendarView.setDisableAutoDateSelection(true);
-        calendarView.setDisableTodaySelection(true);
+        /*calendarView.setDisableTodaySelection(false);
+        calendarView.setEnableRangeSelection(true);*/
 
         calendarView.setOnDateClickListener(new FlexibleCalendarView.OnDateClickListener() {
             @Override

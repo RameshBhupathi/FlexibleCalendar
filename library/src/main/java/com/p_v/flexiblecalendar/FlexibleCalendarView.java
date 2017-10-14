@@ -70,7 +70,15 @@ public class FlexibleCalendarView extends LinearLayout implements
     private boolean showDatesOutsideMonth;
     private boolean decorateDatesOutsideMonth;
     private boolean disableAutoDateSelection;
+
+    /*flag to enable/disable current day selection
+    * set true disable current day selection*/
     private boolean disableTodaySelection;
+
+    /*
+    * flag to enable/disable range selection
+    * */
+    private boolean enableRangeSelection;
     /**
      * Reset adapters flag used internally
      * for tracking go to current month
@@ -143,7 +151,7 @@ public class FlexibleCalendarView extends LinearLayout implements
 
         monthViewPagerAdapter = new MonthViewPagerAdapter(context, displayYear, displayMonth, this,
                 showDatesOutsideMonth, decorateDatesOutsideMonth, startDayOfTheWeek,
-                disableAutoDateSelection, disableTodaySelection);
+                disableAutoDateSelection, disableTodaySelection,enableRangeSelection);
         monthViewPagerAdapter.setMonthEventFetcher(this);
         monthViewPagerAdapter.setSpacing(monthDayHorizontalSpacing, monthDayVerticalSpacing);
 
@@ -160,10 +168,10 @@ public class FlexibleCalendarView extends LinearLayout implements
         monthViewPager.addOnPageChangeListener(new MonthChangeListener());
 
         //initialize with the current selected item
-        if (!disableTodaySelection) {
+       // if (!disableTodaySelection) {
             selectedDateItem = new SelectedDateItem(displayYear, displayMonth, startDisplayDay);
             monthViewPagerAdapter.setSelectedItem(selectedDateItem);
-        }
+       // }
 
         this.addView(monthViewPager);
     }
@@ -187,6 +195,7 @@ public class FlexibleCalendarView extends LinearLayout implements
             showDatesOutsideMonth = a.getBoolean(R.styleable.FlexibleCalendarView_showDatesOutsideMonth, false);
             decorateDatesOutsideMonth = a.getBoolean(R.styleable.FlexibleCalendarView_decorateDatesOutsideMonth, false);
             disableTodaySelection = a.getBoolean(R.styleable.FlexibleCalendarView_disableTodaySelection, false);
+            enableRangeSelection = a.getBoolean(R.styleable.FlexibleCalendarView_enableRangeSelection, false);
 
             startDayOfTheWeek = a.getInt(R.styleable.FlexibleCalendarView_startDayOfTheWeek, Calendar.SUNDAY);
             if (startDayOfTheWeek < 1 || startDayOfTheWeek > 7) {
@@ -601,10 +610,10 @@ public class FlexibleCalendarView extends LinearLayout implements
     }
 
     /**
-     * Flag to decorate dates outside the month. Default value is false which will only decorate
+     * Mehtod to disable the Current day Selection
      * dates within the month
      *
-     * @param decorateDatesOutsideMonth set true to decorate the dates outside month
+     * @param disableTodaySelection set true to disable the current day selection
      */
     public void setDisableTodaySelection(boolean disableTodaySelection) {
         this.disableTodaySelection = disableTodaySelection;
@@ -612,7 +621,16 @@ public class FlexibleCalendarView extends LinearLayout implements
         monthViewPagerAdapter.setDisableTodaySelection(disableTodaySelection);
     }
 
-
+    /**
+     * Method to Enable the Range Selection of dates
+     *
+     * @param
+     * */
+     public void setEnableRangeSelection(boolean enableRangeSelection) {
+         this.enableRangeSelection=enableRangeSelection;
+         monthViewPager.invalidate();
+         monthViewPagerAdapter.setEnableRangeSelection(enableRangeSelection);
+     }
     /**
      * Get the decorate dates outside month flag
      *
@@ -766,8 +784,8 @@ public class FlexibleCalendarView extends LinearLayout implements
     }
 
     public void setUserSelectedDate(Date selectedDate) {
-        SelectedDateItem selectedDateItem=new SelectedDateItem(selectedDate.getYear(),
-                selectedDate.getMonth(),selectedDate.getDay());
+        SelectedDateItem selectedDateItem = new SelectedDateItem(selectedDate.getYear(),
+                selectedDate.getMonth(), selectedDate.getDay());
         monthViewPagerAdapter
                 .getMonthAdapterAtPosition(lastPosition % MonthViewPagerAdapter.VIEWS_IN_PAGER)
                 .setSelectedItem(selectedDateItem, true, true);
