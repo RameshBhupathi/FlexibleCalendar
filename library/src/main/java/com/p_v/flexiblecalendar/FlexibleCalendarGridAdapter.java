@@ -21,6 +21,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import static android.R.attr.type;
+import static android.media.CamcorderProfile.get;
 
 /**
  * @author p-v
@@ -36,7 +37,7 @@ class FlexibleCalendarGridAdapter extends BaseAdapter {
     private OnDateCellItemClickListener onDateCellItemClickListener;
     private SelectedDateItem selectedItem;
     private SelectedDateItem userSelectedDateItem;
-    private static List<SelectedDateItem> userSelectedDateItems;
+    public static List<SelectedDateItem> userSelectedDateItems;
     private MonthEventFetcher monthEventFetcher;
     private IDateCellViewDrawer cellViewDrawer;
     private boolean showDatesOutsideMonth;
@@ -135,7 +136,7 @@ class FlexibleCalendarGridAdapter extends BaseAdapter {
             if (calendar.get(Calendar.YEAR) == year
                     && calendar.get(Calendar.MONTH) == month
                     && calendar.get(Calendar.DAY_OF_MONTH) == day) {
-                Log.i("TodaySelection", "before "+disableTodaySelection+" "+cellType);
+                Log.i("TodaySelection", "before " + disableTodaySelection + " " + cellType);
                 if (!disableTodaySelection) {
                     if (cellType == BaseCellView.SELECTED) {
                         //today and selected
@@ -148,7 +149,7 @@ class FlexibleCalendarGridAdapter extends BaseAdapter {
                     Log.i("TodaySelection", "Disabled");
 
 
-                Log.i("TodaySelection", " "+disableTodaySelection+" "+cellType);
+                Log.i("TodaySelection", " " + disableTodaySelection + " " + cellType);
 
             }
         }
@@ -351,22 +352,11 @@ class FlexibleCalendarGridAdapter extends BaseAdapter {
                         Log.v("selected datesBetween", "datesBetween " + datesBetween.size());
 
                         if (datesBetween.size() > 0) {
-                            for (Calendar cal : datesBetween) {
-                           /* Calendar cal=Calendar.getInstance();
-                            cal.setTime(selectedDate);*/
-                                Log.v("selected datesBetween", "datesBetween " + cal.toString());
-
-                          /*  Log.v("selected datesBetween", "datesBetween " + selectedDate.getYear()+" m:"+
-                            selectedDate.getMonth()+" d: "+selectedDate.getDay());*/
-
-                                Log.v("selected datesBetween", "calendar " + cal.get(Calendar.YEAR) + " m:" +
-                                        cal.get(Calendar.MONTH) + " d: " + cal.get(Calendar.DAY_OF_MONTH));
-
-                                SelectedDateItem selectedDateItem = new SelectedDateItem(cal.get(Calendar.YEAR),
-                                        cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
-
-                                userSelectedDateItems.add(selectedDateItem);
-                                //calendarView.setSelectedDates(selectedDate);
+                            for (int i = 0; i < datesBetween.size(); i++) {
+                                SelectedDateItem selectedDateItem = new SelectedDateItem(datesBetween.get(i).get(Calendar.YEAR),
+                                        datesBetween.get(i).get(Calendar.MONTH),
+                                        datesBetween.get(i).get(Calendar.DAY_OF_MONTH));
+                                userSelectedDateItems.add((i + 1), selectedDateItem);
                             }
                         }
                         isRangeSelected = true;
@@ -411,5 +401,9 @@ class FlexibleCalendarGridAdapter extends BaseAdapter {
 
 
         return datesInRange;
+    }
+
+    public List<SelectedDateItem> getUserSelectedDates() {
+        return userSelectedDateItems;
     }
 }

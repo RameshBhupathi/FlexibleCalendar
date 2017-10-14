@@ -44,7 +44,7 @@
         android:id="@+id/calendar_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:enableRangeSelection="false"
+        app:enableRangeSelection="true"
         app:disableTodaySelection="true"
         android:background="@android:color/darker_gray" />
 
@@ -53,5 +53,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Go to current month" />
+
+    <Button
+        android:id="@+id/show_selected_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Show Selected Dates"
+        android:onClick="showSelectedDates"/>
 
 </LinearLayout>

@@ -240,6 +240,7 @@ public class MonthViewPagerAdapter extends PagerAdapter {
     }
 
 
+
     protected class MonthViewPagerDataSetObserver extends DataSetObserver {
         @Override
         public void onChanged() {

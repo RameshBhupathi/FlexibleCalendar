@@ -26,13 +26,14 @@ import java.util.Locale;
 public class CalendarActivity4 extends ActionBarActivity {
 
     private TextView monthTextView;
+    FlexibleCalendarView calendarView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendary_activity4);
 
-        final FlexibleCalendarView calendarView = (FlexibleCalendarView) findViewById(R.id.calendar_view);
+        calendarView = (FlexibleCalendarView) findViewById(R.id.calendar_view);
         calendarView.setStartDayOfTheWeek(Calendar.MONDAY);
 
         ImageView leftArrow = (ImageView) findViewById(R.id.left_arrow);
@@ -187,5 +188,11 @@ public class CalendarActivity4 extends ActionBarActivity {
             calendar.add(Calendar.DATE, 1);
         }
         return datesInRange;
+    }
+
+    public void showSelectedDates(View view) {
+        for (SelectedDateItem selectedDateItem : calendarView.getUserSelectedDates()) {
+            Log.v("date", selectedDateItem.getDay() + " " + selectedDateItem.getMonth() + " " + selectedDateItem.getDay());
+        }
     }
 }

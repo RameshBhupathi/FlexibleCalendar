@@ -151,7 +151,7 @@ public class FlexibleCalendarView extends LinearLayout implements
 
         monthViewPagerAdapter = new MonthViewPagerAdapter(context, displayYear, displayMonth, this,
                 showDatesOutsideMonth, decorateDatesOutsideMonth, startDayOfTheWeek,
-                disableAutoDateSelection, disableTodaySelection,enableRangeSelection);
+                disableAutoDateSelection, disableTodaySelection, enableRangeSelection);
         monthViewPagerAdapter.setMonthEventFetcher(this);
         monthViewPagerAdapter.setSpacing(monthDayHorizontalSpacing, monthDayVerticalSpacing);
 
@@ -168,10 +168,10 @@ public class FlexibleCalendarView extends LinearLayout implements
         monthViewPager.addOnPageChangeListener(new MonthChangeListener());
 
         //initialize with the current selected item
-       // if (!disableTodaySelection) {
-            selectedDateItem = new SelectedDateItem(displayYear, displayMonth, startDisplayDay);
-            monthViewPagerAdapter.setSelectedItem(selectedDateItem);
-       // }
+        // if (!disableTodaySelection) {
+        selectedDateItem = new SelectedDateItem(displayYear, displayMonth, startDisplayDay);
+        monthViewPagerAdapter.setSelectedItem(selectedDateItem);
+        // }
 
         this.addView(monthViewPager);
     }
@@ -625,12 +625,13 @@ public class FlexibleCalendarView extends LinearLayout implements
      * Method to Enable the Range Selection of dates
      *
      * @param
-     * */
-     public void setEnableRangeSelection(boolean enableRangeSelection) {
-         this.enableRangeSelection=enableRangeSelection;
-         monthViewPager.invalidate();
-         monthViewPagerAdapter.setEnableRangeSelection(enableRangeSelection);
-     }
+     */
+    public void setEnableRangeSelection(boolean enableRangeSelection) {
+        this.enableRangeSelection = enableRangeSelection;
+        monthViewPager.invalidate();
+        monthViewPagerAdapter.setEnableRangeSelection(enableRangeSelection);
+    }
+
     /**
      * Get the decorate dates outside month flag
      *
@@ -976,6 +977,10 @@ public class FlexibleCalendarView extends LinearLayout implements
                     cal.get(Calendar.MONTH), 1);
 
         }
+    }
+
+    public List<SelectedDateItem> getUserSelectedDates() {
+        return FlexibleCalendarGridAdapter.userSelectedDateItems;
     }
 
 }
