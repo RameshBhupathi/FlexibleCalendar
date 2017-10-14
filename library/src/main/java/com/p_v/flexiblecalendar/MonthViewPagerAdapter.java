@@ -212,13 +212,14 @@ public class MonthViewPagerAdapter extends PagerAdapter {
     }
 
     public void refreshUserSelectedItem(SelectedDateItem selectedDateItem) {
-        for (FlexibleCalendarGridAdapter adapter : dateAdapters) {
-            if (adapter.getUserSelectedItem() != null
-                    && !selectedDateItem.equals(adapter.getUserSelectedItem())) {
-                adapter.setUserSelectedDateItem(selectedDateItem);
+        if (selectedDateItem != null) {
+            for (FlexibleCalendarGridAdapter adapter : dateAdapters) {
+                if (adapter.getUserSelectedItem() != null
+                        && !selectedDateItem.equals(adapter.getUserSelectedItem())) {
+                    adapter.setUserSelectedDateItem(selectedDateItem);
+                }
             }
         }
-
     }
 
     public void setDisableTodaySelection(boolean disableTodaySelection) {

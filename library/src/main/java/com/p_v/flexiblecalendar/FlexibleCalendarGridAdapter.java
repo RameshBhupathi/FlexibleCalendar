@@ -34,14 +34,14 @@ class FlexibleCalendarGridAdapter extends BaseAdapter {
     private OnDateCellItemClickListener onDateCellItemClickListener;
     private SelectedDateItem selectedItem;
     private SelectedDateItem userSelectedDateItem;
-    private List<SelectedDateItem> userSelectedDateItems;
+    private static List<SelectedDateItem> userSelectedDateItems;
     private MonthEventFetcher monthEventFetcher;
     private IDateCellViewDrawer cellViewDrawer;
     private boolean showDatesOutsideMonth;
     private boolean decorateDatesOutsideMonth;
     private boolean disableAutoDateSelection;
     private boolean disableTodaySelection;
-    private boolean isRangeSelected;
+    private static boolean  isRangeSelected;
 
 
     public FlexibleCalendarGridAdapter(Context context, int year, int month,
@@ -304,9 +304,9 @@ class FlexibleCalendarGridAdapter extends BaseAdapter {
             if (disableAutoDateSelection) {
                 userSelectedDateItem = selectedItem;
                 Log.v("selected dates", "" + userSelectedDateItem.getDay());
-                if (userSelectedDateItems.contains(selectedItem))
+                if (userSelectedDateItems.contains(selectedItem)) {
                     userSelectedDateItems.remove(selectedItem);
-                else {
+                } else {
                     if (userSelectedDateItems.size() > 2 && isRangeSelected) {
                         userSelectedDateItems.clear();
                     }
