@@ -1,4 +1,5 @@
 .gradle
+.idea
  /gradle
 /local.properties
 /gradle.properties
@@ -10,8 +11,4 @@
 *.iml
 /library/*.iml
 /app/*.iml
-.idea/checkstyle-idea.xml
-.idea/codealike.xml
-.idea/vcs.xml
-.idea/misc.xml
 gradle.properties
