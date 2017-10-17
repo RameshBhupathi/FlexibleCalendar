@@ -15,7 +15,6 @@ import android.widget.Toast;
 
 import com.p_v.flexiblecalendar.FlexibleCalendarView;
 import com.p_v.flexiblecalendar.entity.CalendarEvent;
-import com.p_v.flexiblecalendar.entity.SelectedDateItem;
 import com.p_v.flexiblecalendar.view.BaseCellView;
 import com.p_v.flexiblecalendar.view.SquareCellView;
 
@@ -239,8 +238,4 @@ public class CalendarActivityFragment extends Fragment implements FlexibleCalend
         Toast.makeText(getActivity(), cal.getTime().toString() + " Clicked", Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    public void onSelectedDates(List<SelectedDateItem> selectedDateItems) {
-
-    }
 }

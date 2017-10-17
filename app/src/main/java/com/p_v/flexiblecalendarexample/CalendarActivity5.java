@@ -10,9 +10,6 @@ import com.p_v.flexiblecalendar.FlexibleCalendarView;
 import com.p_v.flexiblecalendar.entity.Event;
 import com.p_v.flexiblecalendar.view.BaseCellView;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class CalendarActivity5 extends AppCompatActivity {
 
     @Override
@@ -20,8 +17,13 @@ public class CalendarActivity5 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar5);
 
-        FlexibleCalendarView view = (FlexibleCalendarView) findViewById(R.id.calendar_view);
-        view.setCalendarView(new FlexibleCalendarView.CalendarView() {
+        FlexibleCalendarView calendarView = (FlexibleCalendarView) findViewById(R.id.calendar_view);
+
+        calendarView.setShowDatesOutsideMonth(false);
+        calendarView.setDisableAutoDateSelection(true);
+        calendarView.setDisableTodaySelection(true);
+        calendarView.setEnableRangeSelection(true);
+        calendarView.setCalendarView(new FlexibleCalendarView.CalendarView() {
             @Override
             public BaseCellView getCellView(int position, View convertView, ViewGroup parent, @BaseCellView.CellType int cellType) {
                 BaseCellView cellView = (BaseCellView) convertView;
@@ -43,7 +45,7 @@ public class CalendarActivity5 extends AppCompatActivity {
             }
         });
 
-        view.setEventDataProvider(new FlexibleCalendarView.EventDataProvider() {
+      /*  calendarView.setEventDataProvider(new FlexibleCalendarView.EventDataProvider() {
             @Override
             public List<? extends Event> getEventsForTheDay(int year, int month, int day) {
 
@@ -54,7 +56,7 @@ public class CalendarActivity5 extends AppCompatActivity {
                 }
                 return null;
             }
-        });
+        });*/
 
     }
 

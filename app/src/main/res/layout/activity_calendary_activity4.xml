@@ -40,19 +40,17 @@
     </LinearLayout>
 
 
-    <com.p_v.flexiblecalendar.FlexibleCalendarView
+    <com.p_v.flexiblecalendar.FiniteFlexibleCalendarView
         android:id="@+id/calendar_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:enableRangeSelection="true"
-        app:disableTodaySelection="true"
         android:background="@android:color/darker_gray" />
 
     <Button
         android:id="@+id/reset_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Go to current month" />
+        android:text="Go to Range Selection" />
 
     <Button
         android:id="@+id/show_selected_button"
