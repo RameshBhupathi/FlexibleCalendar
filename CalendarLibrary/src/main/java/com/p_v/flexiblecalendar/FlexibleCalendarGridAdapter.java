@@ -106,16 +106,18 @@ class FlexibleCalendarGridAdapter extends BaseAdapter {
         //day at the current row and col
         int day = monthDisplayHelper.getDayAt(row, col);
         if (isWithinCurrentMonth) {
-            Calendar yesterday = Calendar.getInstance();
-            yesterday.add(Calendar.DATE, -1);
+            Calendar today = Calendar.getInstance();
+           // yesterday.add(Calendar.DATE, -1);
+
             Calendar dayCalendar = Calendar.getInstance();
             dayCalendar.set(year, month, day);
 
             //set to REGULAR if is within current month
-            if (dayCalendar.getTime().before(yesterday.getTime())) {
+            if (today.getTime().compareTo(dayCalendar.getTime())>0) {
                 Log.v("date previous", dayCalendar.getTime().toString());
                 cellType = BaseCellView.PREVIOUS_DATE;
             } else {
+                Log.v("date REGULAR", dayCalendar.getTime().toString());
                 cellType = BaseCellView.REGULAR;
                 if (disableAutoDateSelection) {
                     if (userSelectedDateItems.size() > 0) {
@@ -251,10 +253,9 @@ class FlexibleCalendarGridAdapter extends BaseAdapter {
         @Override
         public void onClick(final View v) {
             selectedItem = new SelectedDateItem(iYear, iMonth, iDay);
-
-            Calendar yesterday = Calendar.getInstance();
-            yesterday.add(Calendar.DATE, -1);
-            if (yesterday.getTime().before(selectedItem.getDateTime())) {
+            Calendar today = Calendar.getInstance();
+            //yesterday.add(Calendar.DATE, -1);
+            if (today.getTime().compareTo(selectedItem.getDateTime())<=0) {
                 userSelectedDateItem = selectedItem;
                 if (disableAutoDateSelection) {
                     if (enableRangeSelection) {
@@ -295,6 +296,7 @@ class FlexibleCalendarGridAdapter extends BaseAdapter {
                                             datesBetween.get(i).get(Calendar.MONTH),
                                             datesBetween.get(i).get(Calendar.DAY_OF_MONTH));
                                     userSelectedDateItems.add((i + 1), selectedDateItem);
+                                    Log.v("selected Dates",selectedDateItem.getDateTime().toString());
                                 }
                             }
                             Collections.sort(userSelectedDateItems, comparator);
