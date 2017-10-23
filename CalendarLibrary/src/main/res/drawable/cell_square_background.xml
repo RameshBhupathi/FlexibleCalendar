@@ -2,9 +2,15 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:p-v="http://schemas.android.com/apk/res-auto">
     <item p-v:state_date_regular="true"
-        android:drawable="@drawable/cell_white_background"/>
+        android:drawable="@drawable/cell_transparent_background"/>
+
     <item p-v:state_date_today="true"
         android:drawable="@drawable/square_background"/>
+
     <item p-v:state_date_selected="true"
         android:drawable="@drawable/square_background"/>
+
+    <item p-v:state_date_previous="false"
+        android:drawable="@drawable/cell_gray_background"/>
+
 </selector>

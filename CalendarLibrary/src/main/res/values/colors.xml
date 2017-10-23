@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="green">#99CC33</color>
+    <color name="black">#000000</color>
+    <color name="sky_blue">#A1F5FF</color>
 </resources>

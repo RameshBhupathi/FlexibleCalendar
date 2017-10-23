@@ -60,8 +60,7 @@ public class CalendarActivity4 extends ActionBarActivity {
         calendarView.setDisableTodaySelection(false);
         calendarView.setEnableRangeSelection(false);
 
-
-       // calendarView.setMaxValue(10);
+        calendarView.setMaxValue(10);
 
         leftArrow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,7 +68,14 @@ public class CalendarActivity4 extends ActionBarActivity {
                 calendarView.moveToPreviousMonth();
             }
         });
+        calendarView.setOnMonthChangeListener(new FiniteFlexibleCalendarView.OnMonthChangeListener() {
+            @Override
+            public void onMonthChange(int year, int month, @FiniteFlexibleCalendarView.Direction int direction) {
+                monthTextView.setText(cal.getDisplayName(Calendar.MONTH, Calendar.LONG,
+                        getResources().getConfiguration().locale) + " " + year);
 
+            }
+        });
         rightArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,7 +104,6 @@ public class CalendarActivity4 extends ActionBarActivity {
                 return null;
             }
         });
-
 
 
 
