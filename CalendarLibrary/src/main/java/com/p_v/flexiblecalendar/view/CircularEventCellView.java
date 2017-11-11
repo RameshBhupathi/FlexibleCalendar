@@ -110,7 +110,7 @@ public class CircularEventCellView extends BaseCellView {
         }
         if(getStateSet().contains(STATE_PREVIOUS_DATE)){
 //            this.setBackgroundColor(Color.GREEN);
-            this.setBackgroundResource(R.drawable.cell_white_background);
+            this.setBackgroundResource(R.drawable.cell_gray_background);
 
         }
     }
