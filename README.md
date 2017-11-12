@@ -1,8 +1,9 @@
 # FlexibleCalendar With Range Selection
+A customizable calendar for android with customizable events and Range Selection Of dates.
 
-A customizable calendar for android with customizable events.
+# Video Demo
 
-![Demo](demo/demo.gif)
+[![IMAGE ALT TEXT](http://img.youtube.com/vi/sVyBzVyupds/0.jpg)](http://www.youtube.com/watch?v=sVyBzVyupds "Range Selection of Dates in Android")
 
 
 
