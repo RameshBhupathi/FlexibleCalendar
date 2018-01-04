@@ -12,10 +12,3 @@
 /library/*.iml
 /app/*.iml
 gradle.properties
-.idea/misc.xml
-
-gradle/wrapper/gradle-wrapper.properties
-
-codealike.json
-
-gradle/wrapper/gradle-wrapper.properties
