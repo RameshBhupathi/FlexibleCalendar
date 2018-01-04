@@ -12,3 +12,4 @@
 /library/*.iml
 /app/*.iml
 gradle.properties
+.idea/misc.xml
