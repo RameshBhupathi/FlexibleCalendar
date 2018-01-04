@@ -11,6 +11,6 @@
         android:drawable="@drawable/square_background"/>
 
     <item p-v:state_date_previous="false"
-        android:drawable="@drawable/cell_gray_background"/>
+        android:drawable="@drawable/cell_transparent_background"/>
 
 </selector>

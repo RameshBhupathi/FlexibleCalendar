@@ -10,13 +10,13 @@ import android.widget.BaseAdapter;
 
 import com.p_v.flexiblecalendar.entity.Event;
 import com.p_v.flexiblecalendar.entity.SelectedDateItem;
+import com.p_v.flexiblecalendar.entity.VacancyDay;
 import com.p_v.flexiblecalendar.view.BaseCellView;
 import com.p_v.flexiblecalendar.view.IDateCellViewDrawer;
 import com.p_v.fliexiblecalendar.R;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -37,6 +37,7 @@ class FlexibleCalendarGridAdapter extends BaseAdapter {
     private SelectedDateItem selectedItem;
     private SelectedDateItem userSelectedDateItem;
     private MonthEventFetcher monthEventFetcher;
+    private MonthVacancyDayFetcher monthVacancyDayFetcher;
     private IDateCellViewDrawer cellViewDrawer;
     private boolean showDatesOutsideMonth;
     private boolean decorateDatesOutsideMonth;
@@ -107,13 +108,13 @@ class FlexibleCalendarGridAdapter extends BaseAdapter {
         int day = monthDisplayHelper.getDayAt(row, col);
         if (isWithinCurrentMonth) {
             Calendar today = Calendar.getInstance();
-           // yesterday.add(Calendar.DATE, -1);
+            // yesterday.add(Calendar.DATE, -1);
 
             Calendar dayCalendar = Calendar.getInstance();
             dayCalendar.set(year, month, day);
 
             //set to REGULAR if is within current month
-            if (today.getTime().compareTo(dayCalendar.getTime())>0) {
+            if (today.getTime().compareTo(dayCalendar.getTime()) > 0) {
                 Log.v("date previous", dayCalendar.getTime().toString());
                 cellType = BaseCellView.PREVIOUS_DATE;
             } else {
@@ -172,7 +173,7 @@ class FlexibleCalendarGridAdapter extends BaseAdapter {
             }
         }
         drawDateCell(cellView, day, cellType);
-        Log.v("yesterday cellType", ""+cellType);
+        Log.v("yesterday cellType", "" + cellType);
         return cellView;
     }
 
@@ -185,6 +186,12 @@ class FlexibleCalendarGridAdapter extends BaseAdapter {
             if (monthEventFetcher != null) {
                 cellView.setEvents(monthEventFetcher.getEventsForTheDay(year, month, day));
             }
+            if (monthVacancyDayFetcher != null) {
+                if (monthVacancyDayFetcher.getVacancyday(year, month, day) != null)
+                    Log.v("Day Fetcher", "Size " + monthVacancyDayFetcher.getVacancyday(year, month, day).size());
+                cellView.setVacancyDays(monthVacancyDayFetcher.getVacancyday(year, month, day));
+            }
+
             switch (cellType) {
                 case BaseCellView.SELECTED_TODAY:
                     cellView.addState(BaseCellView.STATE_TODAY);
@@ -197,7 +204,7 @@ class FlexibleCalendarGridAdapter extends BaseAdapter {
                     cellView.addState(BaseCellView.STATE_SELECTED);
                     break;
                 case BaseCellView.PREVIOUS_DATE:
-                    Log.v("Case","BaseCellView.PREVIOUS_DATE");
+                    Log.v("Case", "BaseCellView.PREVIOUS_DATE");
                     cellView.addState(BaseCellView.STATE_PREVIOUS_DATE);
                     break;
                 default:
@@ -220,6 +227,9 @@ class FlexibleCalendarGridAdapter extends BaseAdapter {
                     cellView.setEvents(monthEventFetcher.getEventsForTheDay(temp[0], temp[1], day));
                 }
 
+                if (decorateDatesOutsideMonth && monthVacancyDayFetcher != null) {
+                    cellView.setVacancyDays(monthVacancyDayFetcher.getVacancyday(temp[0], temp[1], day));
+                }
                 cellView.addState(BaseCellView.STATE_OUTSIDE_MONTH);
             } else {
                 cellView.setBackgroundResource(android.R.color.transparent);
@@ -255,7 +265,7 @@ class FlexibleCalendarGridAdapter extends BaseAdapter {
             selectedItem = new SelectedDateItem(iYear, iMonth, iDay);
             Calendar today = Calendar.getInstance();
             //yesterday.add(Calendar.DATE, -1);
-            if (today.getTime().compareTo(selectedItem.getDateTime())<=0) {
+            if (today.getTime().compareTo(selectedItem.getDateTime()) <= 0) {
                 userSelectedDateItem = selectedItem;
                 if (disableAutoDateSelection) {
                     if (enableRangeSelection) {
@@ -296,7 +306,7 @@ class FlexibleCalendarGridAdapter extends BaseAdapter {
                                             datesBetween.get(i).get(Calendar.MONTH),
                                             datesBetween.get(i).get(Calendar.DAY_OF_MONTH));
                                     userSelectedDateItems.add((i + 1), selectedDateItem);
-                                    Log.v("selected Dates",selectedDateItem.getDateTime().toString());
+                                    Log.v("selected Dates", selectedDateItem.getDateTime().toString());
                                 }
                             }
                             Collections.sort(userSelectedDateItems, comparator);
@@ -321,6 +331,10 @@ class FlexibleCalendarGridAdapter extends BaseAdapter {
         List<? extends Event> getEventsForTheDay(int year, int month, int day);
     }
 
+    interface MonthVacancyDayFetcher {
+        List<? extends VacancyDay> getVacancyday(int year, int month, int day);
+    }
+
     public void setOnDateClickListener(OnDateCellItemClickListener onDateCellItemClickListener) {
         this.onDateCellItemClickListener = onDateCellItemClickListener;
     }
@@ -339,6 +353,10 @@ class FlexibleCalendarGridAdapter extends BaseAdapter {
 
     void setMonthEventFetcher(MonthEventFetcher monthEventFetcher) {
         this.monthEventFetcher = monthEventFetcher;
+    }
+
+    void setMonthVacDayFetcher(MonthVacancyDayFetcher monthVacancyDayFetcher) {
+        this.monthVacancyDayFetcher = monthVacancyDayFetcher;
     }
 
     public void setCellViewDrawer(IDateCellViewDrawer cellViewDrawer) {

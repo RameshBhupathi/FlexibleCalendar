@@ -14,7 +14,6 @@ public class CalendarActivity extends ActionBarActivity {
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
-
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();

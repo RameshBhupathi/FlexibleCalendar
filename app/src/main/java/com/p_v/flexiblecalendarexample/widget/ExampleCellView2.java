@@ -7,6 +7,7 @@ import android.graphics.Rect;
 import android.util.AttributeSet;
 
 import com.p_v.flexiblecalendar.entity.Event;
+import com.p_v.flexiblecalendar.entity.VacancyDay;
 import com.p_v.flexiblecalendar.view.BaseCellView;
 import com.p_v.flexiblecalendarexample.R;
 
@@ -97,6 +98,11 @@ public class ExampleCellView2 extends BaseCellView {
             invalidate();
             requestLayout();
         }
+    }
+
+    @Override
+    public void setVacancyDays(List<? extends VacancyDay> colorList) {
+
     }
 
     @Override

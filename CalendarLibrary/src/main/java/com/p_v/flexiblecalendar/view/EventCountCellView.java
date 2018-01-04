@@ -8,6 +8,7 @@ import android.graphics.Rect;
 import android.util.AttributeSet;
 
 import com.p_v.flexiblecalendar.entity.Event;
+import com.p_v.flexiblecalendar.entity.VacancyDay;
 import com.p_v.fliexiblecalendar.R;
 
 import java.util.List;
@@ -46,7 +47,7 @@ public class EventCountCellView extends BaseCellView{
     }
 
     private void init(AttributeSet attrs){
-        TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.EventCountCellView);
+         TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.EventCountCellView);
         try{
             radius = (int)a.getDimension(R.styleable.EventCountCellView_event_count_radius,15);
             eventBackground = a.getColor(R.styleable.EventCountCellView_event_background,
@@ -106,5 +107,10 @@ public class EventCountCellView extends BaseCellView{
             invalidate();
             requestLayout();
         }
+    }
+
+    @Override
+    public void setVacancyDays(List<? extends VacancyDay> colorList) {
+
     }
 }

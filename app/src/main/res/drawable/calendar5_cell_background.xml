@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:flexible="http://schemas.android.com/apk/res-auto">
+    <item android:drawable="@drawable/cell_white_background"
+        flexible:day_text_color="@color/black"
+        flexible:state_date_regular="true" />
+
+    <item android:drawable="@drawable/cell_gray_background"
+        flexible:day_text_color="@color/black"
+        flexible:state_date_today="true" />
+
+    <item android:drawable="@drawable/cell_selected_blue"
+        flexible:day_text_color="@color/white"
+        flexible:state_date_selected="true" />
+
+    <item android:drawable="@drawable/cell_blue_background"
+        flexible:day_text_color="@color/black"
+        flexible:state_date_outside_month="true" />
+
+
+</selector>

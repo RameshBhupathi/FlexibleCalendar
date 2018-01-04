@@ -11,9 +11,12 @@ import android.widget.Toast;
 
 import com.p_v.flexiblecalendar.FlexibleCalendarView;
 import com.p_v.flexiblecalendar.entity.Event;
+import com.p_v.flexiblecalendar.entity.VacancyDay;
 import com.p_v.flexiblecalendar.view.BaseCellView;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 public class CalendarActivity5 extends AppCompatActivity {
@@ -71,6 +74,7 @@ public class CalendarActivity5 extends AppCompatActivity {
                 if (cellView == null) {
                     LayoutInflater inflater = LayoutInflater.from(CalendarActivity5.this);
                     cellView = (BaseCellView) inflater.inflate(R.layout.calendar5_date_cell_view, null);
+                    //cellView.setTextColor(getResources().getColor(R.color.date_color));
                 }
                 return cellView;
             }
@@ -86,23 +90,48 @@ public class CalendarActivity5 extends AppCompatActivity {
             }
         });
 
-      /*  calendarView.setEventDataProvider(new FlexibleCalendarView.EventDataProvider() {
+       /* calendarView.setEventDataProvider(new FlexibleCalendarView.EventDataProvider() {
             @Override
             public List<? extends Event> getEventsForTheDay(int year, int month, int day) {
-
-                if (day % 7 == 0) {
+                if (day % 3 == 0) {
                     List<EventW> eventList = new ArrayList<>();
                     eventList.add(new EventW());
                     return eventList;
                 }
                 return null;
             }
-        });*/
+        });
+*/
+        calendarView.setVacancyDataProvider(new FlexibleCalendarView.VacancyDataProvider() {
+            @Override
+            public List<? extends VacancyDay> getVacancyForTheDay(int year, int month, int day) {
+                List<VacancyDay> eventList = new ArrayList<>();
+               /* if (day % 3 == 0) {
+
+                    VacancyDay vacancyDay = new VacancyDay();
+                    vacancyDay.setVacDayType(VacancyDay.VAC_CONFIRM);
+                    eventList.add(vacancyDay);
+
+                }*/
+                if (day % 7 == 0) {
+
+                    VacancyDay vacancyDay = new VacancyDay();
+                    vacancyDay.setVacDayType(VacancyDay.VAC_ABSENCE);
+                    eventList.add(vacancyDay);
+
+                }
+                if (eventList != null && eventList.size() > 0)
+                    return eventList;
+
+                return null;
+            }
+
+        });
 
     }
 
     public void showSelectedDates(View view) {
-        Toast.makeText(this, "selected Dates "+calendarView.getUserSelectedDates().size(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "selected Dates " + calendarView.getUserSelectedDates().size(), Toast.LENGTH_SHORT).show();
     }
 
     public static class EventW implements Event {
@@ -112,7 +141,7 @@ public class CalendarActivity5 extends AppCompatActivity {
 
         @Override
         public int getColor() {
-            return 0;
+            return R.color.vac_absent_color;
         }
     }
 }

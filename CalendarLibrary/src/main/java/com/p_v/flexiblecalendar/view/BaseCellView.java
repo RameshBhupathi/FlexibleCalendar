@@ -6,6 +6,7 @@ import android.util.AttributeSet;
 import android.widget.TextView;
 
 import com.p_v.flexiblecalendar.entity.Event;
+import com.p_v.flexiblecalendar.entity.VacancyDay;
 import com.p_v.fliexiblecalendar.R;
 
 import java.lang.annotation.Retention;
@@ -25,22 +26,32 @@ public abstract class BaseCellView extends TextView {
     public static final int SELECTED_TODAY = 4;
     public static final int OUTSIDE_MONTH = 5;
     public static final int PREVIOUS_DATE = 6;
+    public static final int REGISTERED_CARE = 7;
+    public static final int REGISTERED_ABSENCE = 8;
 
-    @IntDef({TODAY,SELECTED,REGULAR,SELECTED_TODAY,OUTSIDE_MONTH,PREVIOUS_DATE})
+    @IntDef({TODAY, SELECTED, REGULAR, SELECTED_TODAY, OUTSIDE_MONTH, PREVIOUS_DATE,
+            REGISTERED_CARE, REGISTERED_ABSENCE})
     @Retention(RetentionPolicy.SOURCE)
-    public @interface CellType{}
+    public @interface CellType {
+    }
 
     public static final int STATE_TODAY = R.attr.state_date_today;
     public static final int STATE_REGULAR = R.attr.state_date_regular;
     public static final int STATE_SELECTED = R.attr.state_date_selected;
     public static final int STATE_OUTSIDE_MONTH = R.attr.state_date_outside_month;
     public static final int STATE_PREVIOUS_DATE = R.attr.state_date_previous;
+    public static final int STATE_REGISTERED_CARE = R.attr.state_date_previous;
+    public static final int STATE_REGISTERED_ABSENCE = R.attr.state_date_previous;
+
+    public static final int DATE_COLOR = R.attr.day_text_color;
 
     private Set<Integer> stateSet;
+    private Context context;
 
     public BaseCellView(Context context) {
         super(context);
         stateSet = new HashSet<>(3);
+        this.context = context;
     }
 
     public BaseCellView(Context context, AttributeSet attrs) {
@@ -48,39 +59,43 @@ public abstract class BaseCellView extends TextView {
         stateSet = new HashSet<>(3);
     }
 
+
     public BaseCellView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         stateSet = new HashSet<>(3);
     }
 
-    public void addState(int state){
+    public void addState(int state) {
         stateSet.add(state);
     }
 
-    public void clearAllStates(){
+    public void clearAllStates() {
         stateSet.clear();
     }
 
     @Override
     protected int[] onCreateDrawableState(int extraSpace) {
-        if(stateSet==null) stateSet = new HashSet<>(3);
-        if(!stateSet.isEmpty()){
+        if (stateSet == null) stateSet = new HashSet<>(3);
+        if (!stateSet.isEmpty()) {
             final int[] drawableState = super.onCreateDrawableState(extraSpace + stateSet.size());
             int[] states = new int[stateSet.size()];
             int i = 0;
-            for(Integer s : stateSet){
+            for (Integer s : stateSet) {
                 states[i++] = s;
             }
-            mergeDrawableStates(drawableState,states);
+            mergeDrawableStates(drawableState, states);
             return drawableState;
-        }else{
+        } else {
             return super.onCreateDrawableState(extraSpace);
         }
     }
 
     public abstract void setEvents(List<? extends Event> colorList);
 
-    public Set<Integer> getStateSet(){
+
+    public abstract void setVacancyDays(List<? extends VacancyDay> vacancyDaysList);
+
+    public Set<Integer> getStateSet() {
         return stateSet;
     }
 

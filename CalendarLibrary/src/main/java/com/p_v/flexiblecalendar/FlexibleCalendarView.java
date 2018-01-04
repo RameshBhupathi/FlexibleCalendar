@@ -16,10 +16,11 @@ import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 
 import com.antonyt.infiniteviewpager.InfinitePagerAdapter;
+import com.p_v.flexiblecalendar.entity.Event;
 import com.p_v.flexiblecalendar.entity.SelectedDateItem;
+import com.p_v.flexiblecalendar.entity.VacancyDay;
 import com.p_v.flexiblecalendar.exception.HighValueException;
 import com.p_v.flexiblecalendar.view.BaseCellView;
-import com.p_v.flexiblecalendar.entity.Event;
 import com.p_v.flexiblecalendar.view.impl.DateCellViewImpl;
 import com.p_v.flexiblecalendar.view.impl.WeekdayCellViewImpl;
 import com.p_v.fliexiblecalendar.R;
@@ -30,6 +31,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import hugo.weaving.DebugLog;
+
 /**
  * A Flexible calendar view
  *
@@ -37,7 +40,9 @@ import java.util.List;
  */
 public class FlexibleCalendarView extends LinearLayout implements
         FlexibleCalendarGridAdapter.OnDateCellItemClickListener,
-        FlexibleCalendarGridAdapter.MonthEventFetcher {
+        FlexibleCalendarGridAdapter.MonthEventFetcher,
+        FlexibleCalendarGridAdapter.MonthVacancyDayFetcher {
+
 
     /**
      * Customize Calendar using this interface
@@ -79,6 +84,14 @@ public class FlexibleCalendarView extends LinearLayout implements
      */
     public interface EventDataProvider {
         List<? extends Event> getEventsForTheDay(int year, int month, int day);
+    }
+
+
+    /**
+     * Event Data Provider used for displaying events for a particular date
+     */
+    public interface VacancyDataProvider {
+        List<? extends VacancyDay> getVacancyForTheDay(int year, int month, int day);
     }
 
     /**
@@ -172,6 +185,7 @@ public class FlexibleCalendarView extends LinearLayout implements
     private OnDateClickListener onDateClickListener;
 
     private EventDataProvider eventDataProvider;
+    private VacancyDataProvider vacancyDataProvider;
     private CalendarView calendarView;
 
     private int displayYear;
@@ -273,8 +287,9 @@ public class FlexibleCalendarView extends LinearLayout implements
         monthViewPager.setNumOfRows(showDatesOutsideMonth ? 6 : FlexibleCalendarHelper.getNumOfRowsForTheMonth(displayYear, displayMonth, startDayOfTheWeek));
         monthViewPagerAdapter = new MonthViewPagerAdapter(context, displayYear, displayMonth, this,
                 showDatesOutsideMonth, decorateDatesOutsideMonth, startDayOfTheWeek,
-                disableAutoDateSelection,disableTodaySelection,enableRangeSelection);
+                disableAutoDateSelection, disableTodaySelection, enableRangeSelection);
         monthViewPagerAdapter.setMonthEventFetcher(this);
+        monthViewPagerAdapter.setMonthVacancyDayFetcher(this);
         monthViewPagerAdapter.setSpacing(monthDayHorizontalSpacing, monthDayVerticalSpacing);
 
         //set the default cell view
@@ -471,6 +486,11 @@ public class FlexibleCalendarView extends LinearLayout implements
         this.eventDataProvider = eventDataProvider;
     }
 
+    @DebugLog
+    public void setVacancyDataProvider(VacancyDataProvider vacancyDataProvider) {
+        this.vacancyDataProvider = vacancyDataProvider;
+    }
+
     /* /**
       * Set the start display year and month
       * @param year  start year to display
@@ -618,6 +638,12 @@ public class FlexibleCalendarView extends LinearLayout implements
         return eventDataProvider == null ?
                 null : eventDataProvider.getEventsForTheDay(year, month, day);
     }
+
+    @Override
+    public List<? extends VacancyDay> getVacancyday(int year, int month, int day) {
+        return vacancyDataProvider == null ? null : vacancyDataProvider.getVacancyForTheDay(year, month, day);
+    }
+
 
     /**
      * Set the customized calendar view for the calendar for customizing cells
@@ -975,6 +1001,7 @@ public class FlexibleCalendarView extends LinearLayout implements
         }
 
     }
+
     public List<SelectedDateItem> getUserSelectedDates() {
         return FlexibleCalendarGridAdapter.userSelectedDateItems;
     }

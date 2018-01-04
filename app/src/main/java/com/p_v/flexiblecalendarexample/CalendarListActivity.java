@@ -5,11 +5,15 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import hugo.weaving.DebugLog;
 
 public class CalendarListActivity extends ActionBarActivity implements CalendarListAdapter.OnCalendarTypeClickListener {
 
@@ -34,10 +38,18 @@ public class CalendarListActivity extends ActionBarActivity implements CalendarL
         CalendarListAdapter adatper = new CalendarListAdapter(calendarList);
         adatper.setCalendarTypeClickListener(this);
         calendarRecyclerView.setAdapter(adatper);
+        Log.v("test", "" + showMessage("test"));
     }
 
+    @DebugLog
+    private boolean showMessage(String test) {
+        Toast.makeText(this, test, Toast.LENGTH_SHORT).show();
+        return true;
+    }
+    @DebugLog
     @Override
     public void onCalendarTypeClick(String calendarType, int position) {
+        Log.v("cal type",calendarType+" "+position);
         switch (position) {
             case 0:
                 Intent calActivity1 = new Intent(this, CalendarActivity.class);

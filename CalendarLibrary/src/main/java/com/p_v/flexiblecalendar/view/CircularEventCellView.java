@@ -9,6 +9,7 @@ import android.graphics.Rect;
 import android.util.AttributeSet;
 
 import com.p_v.flexiblecalendar.entity.Event;
+import com.p_v.flexiblecalendar.entity.VacancyDay;
 import com.p_v.fliexiblecalendar.R;
 
 import java.util.ArrayList;
@@ -132,6 +133,11 @@ public class CircularEventCellView extends BaseCellView {
             invalidate();
             requestLayout();
         }
+    }
+
+    @Override
+    public void setVacancyDays(List<? extends VacancyDay> colorList) {
+
     }
 
 }

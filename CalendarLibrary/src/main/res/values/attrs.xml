@@ -23,6 +23,7 @@
         <attr name="disableAutoDateSelection" format="boolean" />
         <attr name="disableTodaySelection" format="boolean" />
         <attr name="enableRangeSelection" format="boolean" />
+        <attr name="day_text_color" format="color" />
         <attr name="startDayOfTheWeek" format="enum">
             <enum name="SUNDAY" value="1" />
             <enum name="MONDAY" value="2" />
@@ -39,6 +40,8 @@
         <attr name="state_date_selected" format="boolean" />
         <attr name="state_date_outside_month" format="boolean" />
         <attr name="state_date_previous" format="boolean" />
+        <attr name="state_date_vac_register" format="boolean" />
+        <attr name="state_date_vac_absent" format="boolean" />
 
     </declare-styleable>
 

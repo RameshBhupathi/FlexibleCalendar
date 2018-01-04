@@ -3,4 +3,12 @@
     <color name="green">#99CC33</color>
     <color name="black">#000000</color>
     <color name="sky_blue">#A1F5FF</color>
+    <color name="gray_100">#F5F5F5</color>
+    <color name="gray_200">#EEEEEE</color>
+    <color name="date_color">#6A6D6E</color>
+    <color name="vac_registered_color">#E6E6E6</color>
+    <color name="vac_absent_color">#00B8E6</color>
+    <color name="previous_dates_color">#C4C4C4</color>
+    <color name="week_day_color">#0089AB</color>
+    <color name="white">#ffffff</color>
 </resources>
