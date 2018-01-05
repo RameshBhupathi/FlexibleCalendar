@@ -87,15 +87,17 @@ public class VacSquareCellView extends SquareCellView {
         if (vacancyDayList != null) {
             Log.v("vacancyDayList", "" + vacancyDayList.size());
             for (VacancyDay vacancyDay : vacancyDayList) {
-                if (vacancyDay.getVacDayType().equalsIgnoreCase(VacancyDay.VAC_ABSENCE)) {
-                    setPadding(10,10,10,10);
+                if (vacancyDay.getVacDayType() == BaseCellView.REGISTERED_ABSENCE) {
+                    setPadding(10, 10, 10, 10);
                     setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.cell_gray_200_background));
                 } else {
                     setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.cell_selected_blue));
+                    setTextColor(getResources().getColor(R.color.white));
                 }
             }
         }
     }
+
 
     @Override
     public void setVacancyDays(List<? extends VacancyDay> colorList) {
@@ -116,6 +118,12 @@ public class VacSquareCellView extends SquareCellView {
             invalidate();
             requestLayout();
         }
+    }
+
+    public int getCellType(int day, int month, int year) {
+
+
+        return 0;
     }
 
 }

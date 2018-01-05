@@ -232,7 +232,7 @@ public class CalendarActivityFragment extends Fragment implements FlexibleCalend
     }
 
     @Override
-    public void onDateClick(int year, int month, int day) {
+    public void onDateClick(int year, int month, int day, BaseCellView baseCellView) {
         Calendar cal = Calendar.getInstance();
         cal.set(year, month, day);
         Toast.makeText(getActivity(), cal.getTime().toString() + " Clicked", Toast.LENGTH_SHORT).show();

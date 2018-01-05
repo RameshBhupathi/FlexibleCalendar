@@ -2,7 +2,7 @@ package com.p_v.flexiblecalendarexample;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CalendarActivity3 extends ActionBarActivity implements DatePickerDialog.OnDateSetListener {
+public class CalendarActivity3 extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     private Map<Integer, List<CustomEvent>> eventMap;
     private FlexibleCalendarView calendarView;

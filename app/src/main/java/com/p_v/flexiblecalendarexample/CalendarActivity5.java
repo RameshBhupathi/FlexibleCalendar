@@ -2,6 +2,8 @@ package com.p_v.flexiblecalendarexample;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import com.p_v.flexiblecalendar.FlexibleCalendarView;
 import com.p_v.flexiblecalendar.entity.Event;
 import com.p_v.flexiblecalendar.entity.VacancyDay;
 import com.p_v.flexiblecalendar.view.BaseCellView;
+import com.tooltip.Tooltip;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -35,6 +38,12 @@ public class CalendarActivity5 extends AppCompatActivity {
 
         monthTextView = (TextView) findViewById(R.id.month_text_view);
 
+        calendarView.setOnDateClickListener(new FlexibleCalendarView.OnDateClickListener() {
+            @Override
+            public void onDateClick(int year, int month, int day, BaseCellView baseCellView) {
+
+            }
+        });
         calendarView.setStartDayOfTheWeek(Calendar.MONDAY);
         leftArrow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,6 +99,19 @@ public class CalendarActivity5 extends AppCompatActivity {
             }
         });
 
+        calendarView.setOnDateClickListener(new FlexibleCalendarView.OnDateClickListener() {
+            @Override
+            public void onDateClick(int year, int month, int day, BaseCellView baseCellView) {
+
+                Tooltip.Builder builder = new Tooltip.Builder(baseCellView)
+                        .setCornerRadius(10f)
+                        .setGravity(Gravity.BOTTOM)
+
+                        .setText(String.valueOf("It is yet another very simple tool tip!"));
+                builder.show();
+            }
+        });
+
        /* calendarView.setEventDataProvider(new FlexibleCalendarView.EventDataProvider() {
             @Override
             public List<? extends Event> getEventsForTheDay(int year, int month, int day) {
@@ -106,17 +128,17 @@ public class CalendarActivity5 extends AppCompatActivity {
             @Override
             public List<? extends VacancyDay> getVacancyForTheDay(int year, int month, int day) {
                 List<VacancyDay> eventList = new ArrayList<>();
-               /* if (day % 3 == 0) {
-
+                Log.v("get Vac Day", year + " " + month + " " + day);
+                if (month == 0 && day > 10 && day < 15) {
                     VacancyDay vacancyDay = new VacancyDay();
-                    vacancyDay.setVacDayType(VacancyDay.VAC_CONFIRM);
+                    vacancyDay.setVacDayType(BaseCellView.REGISTERED_CARE);
                     eventList.add(vacancyDay);
 
-                }*/
-                if (day % 7 == 0) {
+                }
+                if (month == 0 && day > 20 && day <= 25) {
 
                     VacancyDay vacancyDay = new VacancyDay();
-                    vacancyDay.setVacDayType(VacancyDay.VAC_ABSENCE);
+                    vacancyDay.setVacDayType(BaseCellView.REGISTERED_ABSENCE);
                     eventList.add(vacancyDay);
 
                 }
@@ -125,7 +147,6 @@ public class CalendarActivity5 extends AppCompatActivity {
 
                 return null;
             }
-
         });
 
     }

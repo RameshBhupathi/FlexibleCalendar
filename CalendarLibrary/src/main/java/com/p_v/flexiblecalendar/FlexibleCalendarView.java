@@ -115,11 +115,12 @@ public class FlexibleCalendarView extends LinearLayout implements
         /**
          * Called whenever a date cell is clicked
          *
-         * @param day   selected day
-         * @param month selected month
          * @param year  selected year
+         * @param month selected month
+         * @param day   selected day
+         * @param baseCellView
          */
-        void onDateClick(int year, int month, int day);
+        void onDateClick(int year, int month, int day, BaseCellView baseCellView);
     }
 
     /**
@@ -505,7 +506,7 @@ public class FlexibleCalendarView extends LinearLayout implements
     }
 */
     @Override
-    public void onDateClick(SelectedDateItem selectedItem) {
+    public void onDateClick(SelectedDateItem selectedItem, BaseCellView baseCellView) {
         if (selectedDateItem.getYear() != selectedItem.getYear() ||
                 selectedDateItem.getMonth() != selectedItem.getMonth()) {
             shouldOverrideComputedDate = true;
@@ -533,7 +534,7 @@ public class FlexibleCalendarView extends LinearLayout implements
         }
 
         if (onDateClickListener != null) {
-            onDateClickListener.onDateClick(selectedItem.getYear(), selectedItem.getMonth(), selectedItem.getDay());
+            onDateClickListener.onDateClick(selectedItem.getYear(), selectedItem.getMonth(), selectedItem.getDay(),baseCellView);
         }
     }
 

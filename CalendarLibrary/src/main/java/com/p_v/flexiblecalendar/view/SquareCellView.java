@@ -55,7 +55,7 @@ public class SquareCellView extends CircularEventCellView {
                 Paint eventPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
                 eventPaint.setStyle(Paint.Style.FILL);
 
-                if (vacancyDay.getVacDayType().equalsIgnoreCase(VacancyDay.VAC_ABSENCE))
+                if (vacancyDay.getVacDayType() == BaseCellView.REGISTERED_ABSENCE)
                     eventPaint.setColor(getContext().getResources().getColor(R.color.vac_absent_color));
                 else
                     eventPaint.setColor(getContext().getResources().getColor(R.color.vac_registered_color));

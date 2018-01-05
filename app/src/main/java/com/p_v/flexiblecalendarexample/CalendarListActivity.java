@@ -2,20 +2,24 @@ package com.p_v.flexiblecalendarexample;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
+
+import com.tooltip.Tooltip;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import hugo.weaving.DebugLog;
 
-public class CalendarListActivity extends ActionBarActivity implements CalendarListAdapter.OnCalendarTypeClickListener {
+public class CalendarListActivity extends AppCompatActivity implements CalendarListAdapter.OnCalendarTypeClickListener {
 
     private List<String> calendarList;
 
@@ -101,5 +105,22 @@ public class CalendarListActivity extends ActionBarActivity implements CalendarL
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void showToolTip(View view) {
+
+       /* SpannableString text = new SpannableString("I`m on the bottom of menu item X");
+        text.setSpan(new ForegroundColorSpan(Color.RED), 0, 3, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        Drawable d = ContextCompat.getDrawable(getBaseContext(), R.mipmap.ic_launcher);
+        d.setBounds(0, 0, d.getIntrinsicWidth(), d.getIntrinsicHeight());
+        ImageSpan span = new ImageSpan(d, ImageSpan.ALIGN_BASELINE);
+        text.setSpan(span, 31, 32, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);*/
+
+        Tooltip.Builder builder = new Tooltip.Builder(view)
+                .setCornerRadius(10f)
+                .setGravity(Gravity.BOTTOM)
+
+                .setText(String.valueOf("It is yet another very simple tool tip!"));
+        builder.show();
     }
 }

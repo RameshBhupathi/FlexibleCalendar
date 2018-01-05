@@ -2,7 +2,7 @@ package com.p_v.flexiblecalendarexample;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,7 +25,7 @@ import java.util.Locale;
 
 import static com.p_v.flexiblecalendarexample.R.id.calendar_view;
 
-public class CalendarActivity4 extends ActionBarActivity {
+public class CalendarActivity4 extends AppCompatActivity {
 
     private TextView monthTextView;
     FiniteFlexibleCalendarView calendarView;

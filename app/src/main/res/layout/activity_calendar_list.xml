@@ -8,9 +8,17 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.p_v.flexiblecalendarexample.CalendarListActivity">
 
+    <Button
+        android:id="@+id/btn_tooltip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="showToolTip"
+        android:text="Show ToolTip"/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/calendar_list_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_below="@+id/btn_tooltip"/>
 
 </RelativeLayout>

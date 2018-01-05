@@ -488,7 +488,7 @@ public class FiniteFlexibleCalendarView extends LinearLayout implements
     }
 */
     @Override
-    public void onDateClick(SelectedDateItem selectedItem) {
+    public void onDateClick(SelectedDateItem selectedItem, BaseCellView baseCellView) {
         if (selectedDateItem.getYear() != selectedItem.getYear() || selectedDateItem.getMonth() != selectedItem.getMonth()) {
             shouldOverrideComputedDate = true;
             //different month

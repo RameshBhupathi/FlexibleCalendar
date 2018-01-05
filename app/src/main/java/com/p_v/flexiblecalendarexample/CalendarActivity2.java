@@ -1,7 +1,7 @@
 package com.p_v.flexiblecalendarexample;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Locale;
 
 
-public class CalendarActivity2 extends ActionBarActivity {
+public class CalendarActivity2 extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
