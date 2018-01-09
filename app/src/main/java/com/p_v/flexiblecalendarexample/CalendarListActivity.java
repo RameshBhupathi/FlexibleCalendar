@@ -38,6 +38,7 @@ public class CalendarListActivity extends AppCompatActivity implements CalendarL
         calendarList.add("Calendar 3");
         calendarList.add("Calendar 4");
         calendarList.add("Calendar 5");
+        calendarList.add("Calendar 6");
 
         CalendarListAdapter adatper = new CalendarListAdapter(calendarList);
         adatper.setCalendarTypeClickListener(this);
@@ -76,6 +77,10 @@ public class CalendarListActivity extends AppCompatActivity implements CalendarL
             case 4:
                 Intent calActivity5 = new Intent(this, CalendarActivity5.class);
                 startActivity(calActivity5);
+                break;
+            case 5:
+                Intent calActivity6 = new Intent(this, CalendarActivity6.class);
+                startActivity(calActivity6);
                 break;
 
             default:
