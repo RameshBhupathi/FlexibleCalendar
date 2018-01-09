@@ -28,9 +28,11 @@ public abstract class BaseCellView extends TextView {
     public static final int PREVIOUS_DATE = 6;
     public static final int REGISTERED_CARE = 7;
     public static final int REGISTERED_ABSENCE = 8;
+    public static final int VACANCY_AVAILABLE = 9;
+    public static final int VACANCY_NOT_AVAILABLE = 10;
 
     @IntDef({TODAY, SELECTED, REGULAR, SELECTED_TODAY, OUTSIDE_MONTH, PREVIOUS_DATE,
-            REGISTERED_CARE, REGISTERED_ABSENCE})
+            REGISTERED_CARE, REGISTERED_ABSENCE,VACANCY_AVAILABLE,VACANCY_NOT_AVAILABLE})
     @Retention(RetentionPolicy.SOURCE)
     public @interface CellType {
     }

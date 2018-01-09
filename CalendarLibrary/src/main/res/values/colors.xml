@@ -11,4 +11,6 @@
     <color name="previous_dates_color">#C4C4C4</color>
     <color name="week_day_color">#0089AB</color>
     <color name="white">#ffffff</color>
+    <color name="pink">#f650a0</color>
+    <color name="light_blue_100">#8DC7CD</color>
 </resources>

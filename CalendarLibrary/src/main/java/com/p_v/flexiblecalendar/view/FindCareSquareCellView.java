@@ -15,25 +15,25 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Created by apple on 03/01/18.
+ * Created by apple on 09/01/18.
  */
 
-public class VacSquareCellView extends SquareCellView {
+public class FindCareSquareCellView extends SquareCellView {
 
     private int leftMostPosition = Integer.MIN_VALUE;
     private List<Paint> paintList;
     private List<VacancyDay> vacancyDayList;
 
-    public VacSquareCellView(Context context) {
+    public FindCareSquareCellView(Context context) {
         super(context);
     }
 
-    public VacSquareCellView(Context context, AttributeSet attrs) {
+    public FindCareSquareCellView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(attrs);
     }
 
-    public VacSquareCellView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public FindCareSquareCellView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(attrs);
     }
@@ -90,15 +90,8 @@ public class VacSquareCellView extends SquareCellView {
                 if (vacancyDay.getVacDayType() == BaseCellView.REGISTERED_ABSENCE) {
                     setPadding(10, 10, 10, 10);
                     setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.cell_gray_200_background));
-                } else if (vacancyDay.getVacDayType() == BaseCellView.REGISTERED_CARE) {
+                } else {
                     setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.cell_selected_blue));
-                    setTextColor(getResources().getColor(R.color.white));
-                } else if (vacancyDay.getVacDayType() == BaseCellView.VACANCY_AVAILABLE) {
-                    setPadding(10, 10, 10, 10);
-                    setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.cell_pink_background));
-                    setTextColor(getResources().getColor(R.color.white));
-                } else if (vacancyDay.getVacDayType() == BaseCellView.VACANCY_NOT_AVAILABLE) {
-                    setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.cell_light_blue_100_background));
                     setTextColor(getResources().getColor(R.color.white));
                 }
             }
@@ -108,20 +101,9 @@ public class VacSquareCellView extends SquareCellView {
 
     @Override
     public void setVacancyDays(List<? extends VacancyDay> colorList) {
-//        Log.v("vacancyDayList", "colorList " + colorList.size());
         if (colorList != null) {
             vacancyDayList = new ArrayList<>(colorList.size());
             vacancyDayList.addAll(colorList);
-           /* for (VacancyDay vacancyDay : colorList) {
-                Paint eventPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-                eventPaint.setStyle(Paint.Style.FILL);
-
-                if (vacancyDay.getVacDayType().equalsIgnoreCase(VacancyDay.VAC_ABSENCE))
-                    eventPaint.setColor(getContext().getResources().getColor(R.color.vac_absent_color));
-                else
-                    eventPaint.setColor(getContext().getResources().getColor(R.color.vac_registered_color));
-                vacancyDayList.add(eventPaint);
-            }*/
             invalidate();
             requestLayout();
         }
@@ -134,4 +116,3 @@ public class VacSquareCellView extends SquareCellView {
     }
 
 }
-
