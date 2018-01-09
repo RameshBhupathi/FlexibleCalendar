@@ -4,11 +4,9 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.util.Log;
 
 import com.p_v.flexiblecalendar.entity.Event;
 import com.p_v.flexiblecalendar.entity.VacancyDay;
-import com.p_v.fliexiblecalendar.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +62,7 @@ public class VacSquareCellView extends SquareCellView {
 
     @Override
     public void setEvents(List<? extends Event> colorList) {
-        if (colorList != null) {
+       /* if (colorList != null) {
             Log.v("setEvents", "" + colorList.size());
             paintList = new ArrayList<>(colorList.size());
             for (Event e : colorList) {
@@ -75,7 +73,7 @@ public class VacSquareCellView extends SquareCellView {
             }
             invalidate();
             requestLayout();
-        }
+        }*/
     }
 
     @Override
@@ -83,55 +81,17 @@ public class VacSquareCellView extends SquareCellView {
         super.onDraw(canvas);
 
         Set<Integer> stateSet = getStateSet();
-
-        if (vacancyDayList != null) {
-            Log.v("vacancyDayList", "" + vacancyDayList.size());
-            for (VacancyDay vacancyDay : vacancyDayList) {
-                if (vacancyDay.getVacDayType() == BaseCellView.REGISTERED_ABSENCE) {
-                    setPadding(10, 10, 10, 10);
-                    setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.cell_gray_200_background));
-                } else if (vacancyDay.getVacDayType() == BaseCellView.REGISTERED_CARE) {
-                    setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.cell_selected_blue));
-                    setTextColor(getResources().getColor(R.color.white));
-                } else if (vacancyDay.getVacDayType() == BaseCellView.VACANCY_AVAILABLE) {
-                    setPadding(10, 10, 10, 10);
-                    setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.cell_pink_background));
-                    setTextColor(getResources().getColor(R.color.white));
-                } else if (vacancyDay.getVacDayType() == BaseCellView.VACANCY_NOT_AVAILABLE) {
-                    setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.cell_light_blue_100_background));
-                    setTextColor(getResources().getColor(R.color.white));
-                }
-            }
-        }
     }
 
 
     @Override
     public void setVacancyDays(List<? extends VacancyDay> colorList) {
-//        Log.v("vacancyDayList", "colorList " + colorList.size());
         if (colorList != null) {
             vacancyDayList = new ArrayList<>(colorList.size());
             vacancyDayList.addAll(colorList);
-           /* for (VacancyDay vacancyDay : colorList) {
-                Paint eventPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-                eventPaint.setStyle(Paint.Style.FILL);
-
-                if (vacancyDay.getVacDayType().equalsIgnoreCase(VacancyDay.VAC_ABSENCE))
-                    eventPaint.setColor(getContext().getResources().getColor(R.color.vac_absent_color));
-                else
-                    eventPaint.setColor(getContext().getResources().getColor(R.color.vac_registered_color));
-                vacancyDayList.add(eventPaint);
-            }*/
             invalidate();
             requestLayout();
         }
     }
-
-    public int getCellType(int day, int month, int year) {
-
-
-        return 0;
-    }
-
 }
 

@@ -8,6 +8,16 @@
         flexible:day_text_color="@color/black"
         flexible:state_date_today="true" />
 
+    <item android:drawable="@drawable/cell_gray_200_background"
+        flexible:day_text_color="@color/black"
+        flexible:state_registered_care="true" />
+
+    <item android:drawable="@drawable/cell_selected_blue"
+        flexible:day_text_color="@color/black"
+        flexible:state_registered_absence="true" />
+
+
+
     <item android:drawable="@drawable/cell_selected_blue"
         flexible:day_text_color="@color/white"
         flexible:state_date_selected="true" />

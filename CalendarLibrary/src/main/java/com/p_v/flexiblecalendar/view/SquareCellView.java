@@ -48,8 +48,8 @@ public class SquareCellView extends CircularEventCellView {
 
     @Override
     public void setVacancyDays(List<? extends VacancyDay> colorList) {
-        Log.v("Vacancy Days", "" + colorList.size());
         if (colorList != null) {
+            Log.v("Vacancy Days", "" + colorList.size());
             paintList = new ArrayList<>(colorList.size());
             for (VacancyDay vacancyDay : colorList) {
                 Paint eventPaint = new Paint(Paint.ANTI_ALIAS_FLAG);

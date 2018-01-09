@@ -80,7 +80,7 @@ public class CalendarActivity6 extends AppCompatActivity {
                 BaseCellView cellView = (BaseCellView) convertView;
                 if (cellView == null) {
                     LayoutInflater inflater = LayoutInflater.from(CalendarActivity6.this);
-                    cellView = (BaseCellView) inflater.inflate(R.layout.calendar5_date_cell_view, null);
+                    cellView = (BaseCellView) inflater.inflate(R.layout.calendar6_date_cell_view, null);
                     //cellView.setTextColor(getResources().getColor(R.color.date_color));
                 }
                 return cellView;

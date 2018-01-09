@@ -42,8 +42,12 @@ public abstract class BaseCellView extends TextView {
     public static final int STATE_SELECTED = R.attr.state_date_selected;
     public static final int STATE_OUTSIDE_MONTH = R.attr.state_date_outside_month;
     public static final int STATE_PREVIOUS_DATE = R.attr.state_date_previous;
-    public static final int STATE_REGISTERED_CARE = R.attr.state_date_previous;
-    public static final int STATE_REGISTERED_ABSENCE = R.attr.state_date_previous;
+
+    public static final int STATE_REGISTERED_CARE = R.attr.state_registered_care;
+    public static final int STATE_REGISTERED_ABSENCE = R.attr.state_registered_absence;
+
+    public static final int STATE_VACANCY_CARE_AVAILABLE = R.attr.state_vacancy_care_available;
+    public static final int STATE_VACANCY_CARE_NOT_AVAILABLE = R.attr.state_vacancy_care_not_available;
 
     public static final int DATE_COLOR = R.attr.day_text_color;
 

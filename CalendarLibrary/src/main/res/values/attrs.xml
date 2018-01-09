@@ -40,9 +40,11 @@
         <attr name="state_date_selected" format="boolean" />
         <attr name="state_date_outside_month" format="boolean" />
         <attr name="state_date_previous" format="boolean" />
-        <attr name="state_date_vac_register" format="boolean" />
-        <attr name="state_date_vac_absent" format="boolean" />
-
+        <attr name="state_registered_care" format="boolean" />
+        <attr name="state_registered_absence" format="boolean" />
+        <attr name="state_vacancy_care_available" format="boolean" />
+        <attr name="state_vacancy_care_not_available" format="boolean" />
     </declare-styleable>
+
 
 </resources>

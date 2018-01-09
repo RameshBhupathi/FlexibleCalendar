@@ -115,7 +115,9 @@ class FlexibleCalendarGridAdapter extends BaseAdapter {
 
             Calendar dayCalendar = Calendar.getInstance();
             dayCalendar.set(year, month, day);
-            List<? extends VacancyDay> cellVacTypes = monthVacancyDayFetcher.getVacancyday(year, month, day);
+            List<? extends VacancyDay> cellVacTypes = null;
+            if (monthVacancyDayFetcher != null)
+                cellVacTypes = monthVacancyDayFetcher.getVacancyday(year, month, day);
 
             if (cellVacTypes != null && cellVacTypes.size() > 0) {
                 cellType = cellVacTypes.get(0).getVacDayType();
@@ -215,6 +217,22 @@ class FlexibleCalendarGridAdapter extends BaseAdapter {
                     Log.v("Case", "BaseCellView.PREVIOUS_DATE");
                     cellView.addState(BaseCellView.STATE_PREVIOUS_DATE);
                     break;
+                case BaseCellView.REGISTERED_ABSENCE:
+                    Log.v("Case", "BaseCellView.PREVIOUS_DATE");
+                    cellView.addState(BaseCellView.STATE_REGISTERED_ABSENCE);
+                    break;
+                case BaseCellView.REGISTERED_CARE:
+                    Log.v("Case", "BaseCellView.PREVIOUS_DATE");
+                    cellView.addState(BaseCellView.STATE_REGISTERED_CARE);
+                    break;
+                case BaseCellView.VACANCY_AVAILABLE:
+                    Log.v("Case", "BaseCellView.PREVIOUS_DATE");
+                    cellView.addState(BaseCellView.STATE_VACANCY_CARE_AVAILABLE);
+                    break;
+                case BaseCellView.VACANCY_NOT_AVAILABLE:
+                    Log.v("Case", "BaseCellView.PREVIOUS_DATE");
+                    cellView.addState(BaseCellView.STATE_VACANCY_CARE_NOT_AVAILABLE);
+                    break;
                 default:
                     cellView.addState(BaseCellView.STATE_REGULAR);
             }
@@ -281,7 +299,7 @@ class FlexibleCalendarGridAdapter extends BaseAdapter {
                     Tooltip.Builder builder = new Tooltip.Builder(baseCellView)
                             .setCornerRadius(10f)
                             .setGravity(Gravity.BOTTOM)
-                             .setCancelable(true)
+                            .setCancelable(true)
                             .setBackgroundColor(context.getResources().getColor(R.color.date_color))
                             .setText(String.valueOf("It is yet another very simple tool tip!"));
                     builder.show();
@@ -351,7 +369,7 @@ class FlexibleCalendarGridAdapter extends BaseAdapter {
     }
 
     public interface OnDateCellItemClickListener {
-        void onDateClick(SelectedDateItem selectedItem,BaseCellView baseCellView);
+        void onDateClick(SelectedDateItem selectedItem, BaseCellView baseCellView);
     }
 
     interface MonthEventFetcher {
