@@ -119,56 +119,60 @@ class FlexibleCalendarGridAdapter extends BaseAdapter {
             if (monthVacancyDayFetcher != null)
                 cellVacTypes = monthVacancyDayFetcher.getVacancyday(year, month, day);
 
-            if (cellVacTypes != null && cellVacTypes.size() > 0) {
-                cellType = cellVacTypes.get(0).getVacDayType();
-                Log.v("cType", "" + cellType);
-            } else {//set to REGULAR if is within current month
-                if (today.getTime().compareTo(dayCalendar.getTime()) > 0) {
-                    Log.v("date previous", dayCalendar.getTime().toString());
-                    cellType = BaseCellView.PREVIOUS_DATE;
-                } else {
-                    Log.v("date REGULAR", dayCalendar.getTime().toString());
-                    cellType = BaseCellView.REGULAR;
-                    if (disableAutoDateSelection) {
-                        if (userSelectedDateItems.size() > 0) {
-                            SelectedDateItem selectedItem = new SelectedDateItem(year, month, day);
-                            if (userSelectedDateItems.contains(selectedItem)) {
+            if (dayCalendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
+                cellType = BaseCellView.PREVIOUS_DATE;
+            } else {
+                if (cellVacTypes != null && cellVacTypes.size() > 0) {
+                    cellType = cellVacTypes.get(0).getVacDayType();
+                    Log.v("cType", "" + cellType);
+                } else {//set to REGULAR if is within current month
+                    if (today.getTime().compareTo(dayCalendar.getTime()) > 0) {
+                        Log.v("date previous", dayCalendar.getTime().toString());
+                        cellType = BaseCellView.PREVIOUS_DATE;
+                    } else {
+                        Log.v("date REGULAR", dayCalendar.getTime().toString());
+                        cellType = BaseCellView.REGULAR;
+                        if (disableAutoDateSelection) {
+                            if (userSelectedDateItems.size() > 0) {
+                                SelectedDateItem selectedItem = new SelectedDateItem(year, month, day);
+                                if (userSelectedDateItems.contains(selectedItem)) {
+                                    cellType = BaseCellView.SELECTED;
+                                }
+
+                            } else if (userSelectedDateItem != null && userSelectedDateItem.getYear() == year
+                                    && userSelectedDateItem.getMonth() == month
+                                    && userSelectedDateItem.getDay() == day) {
+                                //selected
+                                if (!enableRangeSelection)
+                                    cellType = BaseCellView.SELECTED;
+                            }
+                        } else {
+                            if (selectedItem != null && selectedItem.getYear() == year
+                                    && selectedItem.getMonth() == month
+                                    && selectedItem.getDay() == day) {
+                                //selected
                                 cellType = BaseCellView.SELECTED;
                             }
-
-                        } else if (userSelectedDateItem != null && userSelectedDateItem.getYear() == year
-                                && userSelectedDateItem.getMonth() == month
-                                && userSelectedDateItem.getDay() == day) {
-                            //selected
-                            if (!enableRangeSelection)
-                                cellType = BaseCellView.SELECTED;
                         }
-                    } else {
-                        if (selectedItem != null && selectedItem.getYear() == year
-                                && selectedItem.getMonth() == month
-                                && selectedItem.getDay() == day) {
-                            //selected
-                            cellType = BaseCellView.SELECTED;
+                        if (calendar.get(Calendar.YEAR) == year
+                                && calendar.get(Calendar.MONTH) == month
+                                && calendar.get(Calendar.DAY_OF_MONTH) == day) {
+
+                            if (!disableTodaySelection) {
+                                if (userSelectedDateItem == null)
+                                    cellType = BaseCellView.SELECTED_TODAY;
+                                else if (userSelectedDateItem.getDay() == day)
+                                    cellType = BaseCellView.SELECTED_TODAY;
+                                else
+                                    cellType = BaseCellView.REGULAR;
+
+                            } else {
+                                SelectedDateItem selectedDateItem = new SelectedDateItem(year, month, day);
+                                if (!userSelectedDateItems.contains(selectedDateItem))
+                                    cellType = BaseCellView.REGULAR;
+                            }
+
                         }
-                    }
-                    if (calendar.get(Calendar.YEAR) == year
-                            && calendar.get(Calendar.MONTH) == month
-                            && calendar.get(Calendar.DAY_OF_MONTH) == day) {
-
-                        if (!disableTodaySelection) {
-                            if (userSelectedDateItem == null)
-                                cellType = BaseCellView.SELECTED_TODAY;
-                            else if (userSelectedDateItem.getDay() == day)
-                                cellType = BaseCellView.SELECTED_TODAY;
-                            else
-                                cellType = BaseCellView.REGULAR;
-
-                        } else {
-                            SelectedDateItem selectedDateItem = new SelectedDateItem(year, month, day);
-                            if (!userSelectedDateItems.contains(selectedDateItem))
-                                cellType = BaseCellView.REGULAR;
-                        }
-
                     }
                 }
             }
@@ -293,7 +297,8 @@ class FlexibleCalendarGridAdapter extends BaseAdapter {
         @Override
         public void onClick(final View v) {
             selectedItem = new SelectedDateItem(iYear, iMonth, iDay);
-            if (cellTYpe == BaseCellView.REGISTERED_ABSENCE || cellTYpe == BaseCellView.REGISTERED_CARE) {
+            if (cellTYpe == BaseCellView.PREVIOUS_DATE) {
+            } else if (cellTYpe == BaseCellView.REGISTERED_ABSENCE || cellTYpe == BaseCellView.REGISTERED_CARE) {
                 Log.v("Selected", "" + cellTYpe);
                 if (onDateCellItemClickListener != null) {
                     Tooltip.Builder builder = new Tooltip.Builder(baseCellView)
@@ -363,7 +368,6 @@ class FlexibleCalendarGridAdapter extends BaseAdapter {
                         onDateCellItemClickListener.onDateClick(selectedItem, baseCellView);
                     }
                 }
-
             }
         }
     }
