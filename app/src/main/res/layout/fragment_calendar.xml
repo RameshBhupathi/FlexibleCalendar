@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:background="@android:color/black"
         android:paddingBottom="22dp"
-        support:startDayOfTheWeek="WEDNESDAY" />
+        support:startDayOfTheWeek="SUNDAY" />
 
     <LinearLayout
         android:layout_width="match_parent"

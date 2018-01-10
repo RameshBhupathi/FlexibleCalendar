@@ -19,6 +19,7 @@ import android.widget.ListAdapter;
 import com.antonyt.infiniteviewpager.FinitePagerAdapter;
 import com.p_v.flexiblecalendar.entity.Event;
 import com.p_v.flexiblecalendar.entity.SelectedDateItem;
+import com.p_v.flexiblecalendar.entity.VacancyDay;
 import com.p_v.flexiblecalendar.exception.HighValueException;
 import com.p_v.flexiblecalendar.view.BaseCellView;
 import com.p_v.flexiblecalendar.view.impl.DateCellViewImpl;
@@ -38,7 +39,9 @@ import java.util.List;
  */
 public class FiniteFlexibleCalendarView extends LinearLayout implements
         FlexibleCalendarGridAdapter.OnDateCellItemClickListener,
-        FlexibleCalendarGridAdapter.MonthEventFetcher {
+        FlexibleCalendarGridAdapter.MonthEventFetcher,
+        FlexibleCalendarGridAdapter.MonthVacancyDayFetcher {
+
 
     /**
      * Customize Calendar using this interface
@@ -83,6 +86,13 @@ public class FiniteFlexibleCalendarView extends LinearLayout implements
     }
 
     /**
+     * Event Data Provider used for displaying events for a particular date
+     */
+    public interface VacancyDataProvider {
+        List<? extends VacancyDay> getVacancyForTheDay(int year, int month, int day);
+    }
+
+    /**
      * Listener for month change.
      */
     public interface OnMonthChangeListener {
@@ -107,7 +117,7 @@ public class FiniteFlexibleCalendarView extends LinearLayout implements
          * @param month selected month
          * @param year  selected year
          */
-        void onDateClick(int year, int month, int day);
+        void onDateClick(int year, int month, int day, BaseCellView baseCellView);
     }
 
     /**
@@ -173,6 +183,7 @@ public class FiniteFlexibleCalendarView extends LinearLayout implements
     private OnDateClickListener onDateClickListener;
 
     private EventDataProvider eventDataProvider;
+    private VacancyDataProvider vacancyDataProvider;
     private FlexibleCalendarView.CalendarView calendarView;
 
     private int displayYear;
@@ -276,6 +287,7 @@ public class FiniteFlexibleCalendarView extends LinearLayout implements
                 showDatesOutsideMonth, decorateDatesOutsideMonth, startDayOfTheWeek,
                 disableAutoDateSelection, disableTodaySelection, enableRangeSelection);
         monthViewPagerAdapter.setMonthEventFetcher(this);
+        monthViewPagerAdapter.setMonthVacancyDayFetcher(this);
         monthViewPagerAdapter.setSpacing(monthDayHorizontalSpacing, monthDayVerticalSpacing);
 
         //set the default cell view
@@ -474,6 +486,10 @@ public class FiniteFlexibleCalendarView extends LinearLayout implements
         this.eventDataProvider = eventDataProvider;
     }
 
+    public void setVacancyDataProvider(VacancyDataProvider vacancyDataProvider) {
+        this.vacancyDataProvider = vacancyDataProvider;
+    }
+
     /* /**
       * Set the start display year and month
       * @param year  start year to display
@@ -515,7 +531,7 @@ public class FiniteFlexibleCalendarView extends LinearLayout implements
         }
 
         if (onDateClickListener != null) {
-            onDateClickListener.onDateClick(selectedItem.getYear(), selectedItem.getMonth(), selectedItem.getDay());
+            onDateClickListener.onDateClick(selectedItem.getYear(), selectedItem.getMonth(), selectedItem.getDay(), baseCellView);
         }
     }
 
@@ -619,6 +635,12 @@ public class FiniteFlexibleCalendarView extends LinearLayout implements
     public List<? extends Event> getEventsForTheDay(int year, int month, int day) {
         return eventDataProvider == null ?
                 null : eventDataProvider.getEventsForTheDay(year, month, day);
+    }
+
+    @Override
+    public List<? extends VacancyDay> getVacancyday(int year, int month, int day) {
+        return vacancyDataProvider == null ?
+                null : vacancyDataProvider.getVacancyForTheDay(year, month, day);
     }
 
     /**

@@ -42,7 +42,7 @@
             android:layout_weight="1"
             android:src="@drawable/right_arrow" />
     </LinearLayout>
-    <com.p_v.flexiblecalendar.FlexibleCalendarView
+    <com.p_v.flexiblecalendar.FiniteFlexibleCalendarView
         android:id="@+id/calendar_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

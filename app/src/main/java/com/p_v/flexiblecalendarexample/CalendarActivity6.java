@@ -8,8 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.p_v.flexiblecalendar.FiniteFlexibleCalendarView;
 import com.p_v.flexiblecalendar.FlexibleCalendarView;
 import com.p_v.flexiblecalendar.entity.Event;
 import com.p_v.flexiblecalendar.entity.VacancyDay;
@@ -23,25 +23,19 @@ import java.util.Locale;
 public class CalendarActivity6 extends AppCompatActivity {
 
     private TextView monthTextView;
-    private FlexibleCalendarView calendarView;
+    private FiniteFlexibleCalendarView calendarView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar6);
 
-        calendarView = (FlexibleCalendarView) findViewById(R.id.calendar_view);
+        calendarView = (FiniteFlexibleCalendarView) findViewById(R.id.calendar_view);
         ImageView leftArrow = (ImageView) findViewById(R.id.left_arrow);
         ImageView rightArrow = (ImageView) findViewById(R.id.right_arrow);
 
         monthTextView = (TextView) findViewById(R.id.month_text_view);
 
-        calendarView.setOnDateClickListener(new FlexibleCalendarView.OnDateClickListener() {
-            @Override
-            public void onDateClick(int year, int month, int day, BaseCellView baseCellView) {
-
-            }
-        });
         calendarView.setStartDayOfTheWeek(Calendar.MONDAY);
         leftArrow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,7 +43,7 @@ public class CalendarActivity6 extends AppCompatActivity {
                 calendarView.moveToPreviousMonth();
             }
         });
-        calendarView.setOnMonthChangeListener(new FlexibleCalendarView.OnMonthChangeListener() {
+        calendarView.setOnMonthChangeListener(new FiniteFlexibleCalendarView.OnMonthChangeListener() {
             @Override
             public void onMonthChange(int year, int month, @FlexibleCalendarView.Direction int direction) {
                 Calendar cal = Calendar.getInstance();
@@ -97,7 +91,7 @@ public class CalendarActivity6 extends AppCompatActivity {
             }
         });
 
-        calendarView.setOnDateClickListener(new FlexibleCalendarView.OnDateClickListener() {
+        calendarView.setOnDateClickListener(new FiniteFlexibleCalendarView.OnDateClickListener() {
             @Override
             public void onDateClick(int year, int month, int day, BaseCellView baseCellView) {
 
@@ -122,7 +116,8 @@ public class CalendarActivity6 extends AppCompatActivity {
             }
         });
 */
-        calendarView.setVacancyDataProvider(new FlexibleCalendarView.VacancyDataProvider() {
+       calendarView.setMaxValue(10);
+        calendarView.setVacancyDataProvider(new FiniteFlexibleCalendarView.VacancyDataProvider() {
             @Override
             public List<? extends VacancyDay> getVacancyForTheDay(int year, int month, int day) {
                 List<VacancyDay> eventList = new ArrayList<>();
@@ -150,7 +145,6 @@ public class CalendarActivity6 extends AppCompatActivity {
     }
 
     public void showSelectedDates(View view) {
-        Toast.makeText(this, "selected Dates " + calendarView.getUserSelectedDates().size(), Toast.LENGTH_SHORT).show();
     }
 
     public static class EventW implements Event {
