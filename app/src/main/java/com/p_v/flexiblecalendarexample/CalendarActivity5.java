@@ -3,7 +3,6 @@ package com.p_v.flexiblecalendarexample;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +14,11 @@ import com.p_v.flexiblecalendar.FlexibleCalendarView;
 import com.p_v.flexiblecalendar.entity.Event;
 import com.p_v.flexiblecalendar.entity.VacancyDay;
 import com.p_v.flexiblecalendar.view.BaseCellView;
-import com.tooltip.Tooltip;
 
+import java.text.DateFormatSymbols;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
@@ -26,11 +27,23 @@ public class CalendarActivity5 extends AppCompatActivity {
 
     private TextView monthTextView;
     private FlexibleCalendarView calendarView;
+    private String[] vacancydays = {"Thursday", "Monday"};
+    private ArrayList<String> absenceDays = new ArrayList<>();
+    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar5);
+        Calendar calendar = Calendar.getInstance();
+
+      //  absenceDays.add(simpleDateFormat.format(calendar.getTime()));
+        calendar.add(Calendar.DATE, 2);
+        absenceDays.add(simpleDateFormat.format(calendar.getTime()));
+        calendar.add(Calendar.DATE, 1);
+        absenceDays.add(simpleDateFormat.format(calendar.getTime()));
+
+        Log.v("absence Days", Arrays.toString(absenceDays.toArray()));
 
         calendarView = (FlexibleCalendarView) findViewById(R.id.calendar_view);
         ImageView leftArrow = (ImageView) findViewById(R.id.left_arrow);
@@ -102,13 +115,6 @@ public class CalendarActivity5 extends AppCompatActivity {
         calendarView.setOnDateClickListener(new FlexibleCalendarView.OnDateClickListener() {
             @Override
             public void onDateClick(int year, int month, int day, BaseCellView baseCellView) {
-
-                Tooltip.Builder builder = new Tooltip.Builder(baseCellView)
-                        .setCornerRadius(10f)
-                        .setGravity(Gravity.BOTTOM)
-
-                        .setText(String.valueOf("It is yet another very simple tool tip!"));
-                builder.show();
             }
         });
 
@@ -128,19 +134,33 @@ public class CalendarActivity5 extends AppCompatActivity {
             @Override
             public List<? extends VacancyDay> getVacancyForTheDay(int year, int month, int day) {
                 List<VacancyDay> eventList = new ArrayList<>();
-                Log.v("get Vac Day", year + " " + month + " " + day);
-                if (month == 0 && day > 10 && day < 15) {
-                    VacancyDay vacancyDay = new VacancyDay();
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(year, month, day);
+
+                DateFormatSymbols dfs = new DateFormatSymbols();
+                String weekDay = dfs.getWeekdays()[calendar.get(Calendar.DAY_OF_WEEK)];
+
+
+                if (Arrays.asList(vacancydays).contains(weekDay)) {
+                    Log.v("containnn", weekDay);
+                    VacancyDay vacancyDay = new VacancyDay(year,month,day);
                     vacancyDay.setVacDayType(BaseCellView.REGISTERED_CARE);
                     eventList.add(vacancyDay);
-
                 }
-                if (month == 0 && day > 20 && day <= 25) {
 
-                    VacancyDay vacancyDay = new VacancyDay();
+                String currentDay =simpleDateFormat.format(calendar.getTime());
+                Log.v("Formatted currentday ", currentDay);
+                if (absenceDays.contains(currentDay)) {
+                    Log.v("AbsenceDay Matched ", currentDay);
+                    VacancyDay vacancyDay = new VacancyDay(year,month,day);
+                    if (eventList.contains(vacancyDay)) {
+                        eventList.remove(vacancyDay);
+                        vacancyDay.setState(BaseCellView.SELECTED);
+                    }
+                    else
+                        vacancyDay.setState(BaseCellView.REGULAR);
                     vacancyDay.setVacDayType(BaseCellView.REGISTERED_ABSENCE);
                     eventList.add(vacancyDay);
-
                 }
                 if (eventList != null && eventList.size() > 0)
                     return eventList;
@@ -148,7 +168,6 @@ public class CalendarActivity5 extends AppCompatActivity {
                 return null;
             }
         });
-
     }
 
     public void showSelectedDates(View view) {

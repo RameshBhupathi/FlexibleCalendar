@@ -1,8 +1,10 @@
 package com.p_v.flexiblecalendar.view;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.support.annotation.IntDef;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.p_v.flexiblecalendar.entity.Event;
@@ -32,7 +34,7 @@ public abstract class BaseCellView extends TextView {
     public static final int VACANCY_NOT_AVAILABLE = 10;
 
     @IntDef({TODAY, SELECTED, REGULAR, SELECTED_TODAY, OUTSIDE_MONTH, PREVIOUS_DATE,
-            REGISTERED_CARE, REGISTERED_ABSENCE,VACANCY_AVAILABLE,VACANCY_NOT_AVAILABLE})
+            REGISTERED_CARE, REGISTERED_ABSENCE, VACANCY_AVAILABLE, VACANCY_NOT_AVAILABLE})
     @Retention(RetentionPolicy.SOURCE)
     public @interface CellType {
     }
@@ -49,7 +51,7 @@ public abstract class BaseCellView extends TextView {
     public static final int STATE_VACANCY_CARE_AVAILABLE = R.attr.state_vacancy_care_available;
     public static final int STATE_VACANCY_CARE_NOT_AVAILABLE = R.attr.state_vacancy_care_not_available;
 
-    public static final int DATE_COLOR = R.attr.day_text_color;
+    private int DATE_COLOR = R.attr.day_text_color;
 
     private Set<Integer> stateSet;
     private Context context;
@@ -62,12 +64,13 @@ public abstract class BaseCellView extends TextView {
 
     public BaseCellView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init(attrs);
         stateSet = new HashSet<>(3);
     }
 
-
     public BaseCellView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        init(attrs);
         stateSet = new HashSet<>(3);
     }
 
@@ -96,6 +99,16 @@ public abstract class BaseCellView extends TextView {
         }
     }
 
+    private void init(AttributeSet attrs) {
+        TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.FlexibleCalendarView);
+        try {
+            int color = a.getColor(R.styleable.FlexibleCalendarView_day_text_color, 0);
+            Log.v("color", "date " + color + " " + DATE_COLOR);
+        } finally {
+            a.recycle();
+        }
+    }
+
     public abstract void setEvents(List<? extends Event> colorList);
 
 
@@ -105,4 +118,7 @@ public abstract class BaseCellView extends TextView {
         return stateSet;
     }
 
+    public int getDATE_COLOR() {
+        return DATE_COLOR;
+    }
 }

@@ -1,12 +1,14 @@
 package com.p_v.flexiblecalendar.view;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 
 import com.p_v.flexiblecalendar.entity.Event;
 import com.p_v.flexiblecalendar.entity.VacancyDay;
+import com.p_v.fliexiblecalendar.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,27 +39,13 @@ public class VacSquareCellView extends SquareCellView {
     }
 
     private void init(AttributeSet attrs) {
-        /*TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.CircularEventCellView);
+        TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.FlexibleCalendarView);
         try {
-            int screenSize = getResources().getConfiguration().screenLayout &
-                    Configuration.SCREENLAYOUT_SIZE_MASK;
-            switch (screenSize) {
-                case Configuration.SCREENLAYOUT_SIZE_LARGE:
-                    radius = (int) a.getDimension(R.styleable.CircularEventCellView_event_radius, 8);
-                    break;
-                case Configuration.SCREENLAYOUT_SIZE_NORMAL:
-                    radius = (int) a.getDimension(R.styleable.CircularEventCellView_event_radius, 6);
-                    break;
-                case Configuration.SCREENLAYOUT_SIZE_SMALL:
-                    radius = (int) a.getDimension(R.styleable.CircularEventCellView_event_radius, 4);
-                    break;
-                default:
-                    radius = (int) a.getDimension(R.styleable.CircularEventCellView_event_radius, 5);
-            }
-            padding = (int) a.getDimension(R.styleable.CircularEventCellView_event_circle_padding, 1);
+            int color = a.getColor(R.styleable.FlexibleCalendarView_day_text_color, 0);
+
         } finally {
             a.recycle();
-        }*/
+        }
     }
 
     @Override
@@ -79,8 +67,9 @@ public class VacSquareCellView extends SquareCellView {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
         Set<Integer> stateSet = getStateSet();
+
+        setTextColor(getDATE_COLOR());
     }
 
 
