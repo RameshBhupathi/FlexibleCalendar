@@ -127,8 +127,6 @@ class FlexibleCalendarGridAdapter extends BaseAdapter {
             } else {*/
             if (cellVacTypes != null && cellVacTypes.size() > 0) {
                 cellType = cellVacTypes.get(0).getVacDayType();
-                cellState = cellVacTypes.get(0).getState();
-                Log.v("cType", "" + cellType);
             } else {
                 //set to REGULAR if is within current month
                 if (today.getTime().compareTo(dayCalendar.getTime()) > 0) {
@@ -182,6 +180,10 @@ class FlexibleCalendarGridAdapter extends BaseAdapter {
                 }
             }
         }
+        else {
+           // cellType=BaseCellView.PREVIOUS_DATE;
+            Log.v("isWithinCurrentMonth","Not");
+        }
         // }
         BaseCellView cellView = cellViewDrawer.getCellView(position, convertView, parent, cellType);
         if (cellView == null) {
@@ -193,7 +195,7 @@ class FlexibleCalendarGridAdapter extends BaseAdapter {
             }
         }
         drawDateCell(cellView, day, cellType);
-        Log.v("yesterday cellType", "" + cellType);
+        Log.v("day cellType", "" +day+" "+ cellType);
         return cellView;
     }
 
@@ -225,7 +227,7 @@ class FlexibleCalendarGridAdapter extends BaseAdapter {
                     cellView.addState(BaseCellView.STATE_SELECTED);
                     break;
                 case BaseCellView.PREVIOUS_DATE:
-                    Log.v("Case", "BaseCellView.PREVIOUS_DATE");
+                    Log.v("Case", "BaseCellView.PREVIOUS_DATE"+cellType+ " "+currentCellDate.toString());
                     cellView.addState(BaseCellView.STATE_PREVIOUS_DATE);
                     break;
                 case BaseCellView.REGISTERED_ABSENCE:
@@ -235,8 +237,9 @@ class FlexibleCalendarGridAdapter extends BaseAdapter {
                 case BaseCellView.REGISTERED_CARE:
                     Log.v("Case", "BaseCellView.PREVIOUS_DATE");
                     if (userSelectedDateItems != null && userSelectedDateItems.size() > 0) {
-                        if (userSelectedDateItems.contains(currentCellDate))
+                        if (userSelectedDateItems.contains(currentCellDate)) {
                             cellView.addState(BaseCellView.STATE_SELECTED);
+                        }
                         else
                             cellView.addState(BaseCellView.STATE_REGISTERED_CARE);
                     } else

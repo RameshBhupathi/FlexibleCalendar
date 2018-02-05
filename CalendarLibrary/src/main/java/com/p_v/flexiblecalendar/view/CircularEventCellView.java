@@ -109,11 +109,7 @@ public class CircularEventCellView extends BaseCellView {
                 canvas.drawCircle(calculateStartPoint(i), eventCircleY, radius, paintList.get(i));
             }
         }
-        if(getStateSet().contains(STATE_PREVIOUS_DATE)){
-//            this.setBackgroundColor(Color.GREEN);
-            this.setBackgroundResource(R.drawable.cell_gray_background);
 
-        }
     }
 
     private int calculateStartPoint(int offset) {

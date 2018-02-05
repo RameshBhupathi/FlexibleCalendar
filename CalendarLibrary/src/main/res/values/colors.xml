@@ -13,4 +13,11 @@
     <color name="white">#ffffff</color>
     <color name="pink">#f650a0</color>
     <color name="light_blue_100">#8DC7CD</color>
+    <color name="dark_blue">#0089AB</color>
+
+    <color name="previous_day_text_color">#C4C4C4</color>
+
+    <color name="regular_day_text_color">#6B6D6E</color>
+
+    <color name="selected_day_text_color">@color/white</color>
 </resources>

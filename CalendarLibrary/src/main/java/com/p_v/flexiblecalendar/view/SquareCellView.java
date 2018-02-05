@@ -31,13 +31,17 @@ public class SquareCellView extends CircularEventCellView {
         super(context, attrs, defStyleAttr);
     }
 
+   /* public void init(AttributeSet attributeSet){
+        //TypedArray typedArray=
+    }*/
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        if (getStateSet().contains(STATE_SELECTED))
+     /*   if (getStateSet().contains(STATE_SELECTED))
             setTextColor(getResources().getColor(R.color.white));
         else
-            setTextColor(getResources().getColor(R.color.black));
+            setTextColor(getResources().getColor(R.color.black));*/
     }
 
     @Override

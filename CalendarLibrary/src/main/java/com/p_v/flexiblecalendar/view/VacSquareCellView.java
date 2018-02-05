@@ -1,10 +1,10 @@
 package com.p_v.flexiblecalendar.view;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.util.Log;
 
 import com.p_v.flexiblecalendar.entity.Event;
 import com.p_v.flexiblecalendar.entity.VacancyDay;
@@ -30,22 +30,31 @@ public class VacSquareCellView extends SquareCellView {
 
     public VacSquareCellView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(attrs);
+        //   init(attrs);
     }
 
     public VacSquareCellView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(attrs);
+        // init(attrs);
     }
 
-    private void init(AttributeSet attrs) {
-        TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.FlexibleCalendarView);
-        try {
-            int color = a.getColor(R.styleable.FlexibleCalendarView_day_text_color, 0);
-
-        } finally {
-            a.recycle();
-        }
+    @Override
+    public void addState(int state) {
+        super.addState(state);
+        if (state == BaseCellView.STATE_SELECTED)
+            setTextColor(getResources().getColor(R.color.selected_day_text_color));
+        else if (state == STATE_TODAY)
+            setTextColor(getResources().getColor(R.color.regular_day_text_color));
+        else if (state == STATE_PREVIOUS_DATE)
+            setTextColor(getResources().getColor(R.color.previous_day_text_color));
+        else if (state == STATE_REGISTERED_ABSENCE)
+            setTextColor(getResources().getColor(R.color.selected_day_text_color));
+        else if (state == STATE_REGISTERED_CARE)
+            setTextColor(getResources().getColor(R.color.regular_day_text_color));
+        else if (state == STATE_OUTSIDE_MONTH)
+            setTextColor(getResources().getColor(R.color.previous_day_text_color));
+        else if (state == STATE_REGULAR)
+            setTextColor(getResources().getColor(R.color.regular_day_text_color));
     }
 
     @Override
@@ -68,8 +77,8 @@ public class VacSquareCellView extends SquareCellView {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         Set<Integer> stateSet = getStateSet();
-
-        setTextColor(getDATE_COLOR());
+        Log.v("color", "vac square " + getDATE_COLOR());
+        // setTextColor(getDATE_COLOR());
     }
 
 

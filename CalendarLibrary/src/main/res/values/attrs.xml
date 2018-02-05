@@ -34,7 +34,7 @@
             <enum name="SATURDAY" value="7" />
         </attr>
     </declare-styleable>
-    <declare-styleable name="CellState">
+    <declare-styleable name="CellState">x
         <attr name="state_date_regular" format="boolean" />
         <attr name="state_date_today" format="boolean" />
         <attr name="state_date_selected" format="boolean" />

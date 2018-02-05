@@ -2,18 +2,18 @@ package com.p_v.flexiblecalendar;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
 import com.p_v.flexiblecalendar.view.BaseCellView;
-import com.p_v.flexiblecalendar.view.ICellViewDrawer;
 import com.p_v.flexiblecalendar.view.IWeekCellViewDrawer;
 import com.p_v.fliexiblecalendar.R;
 
 import java.text.DateFormatSymbols;
-import java.util.Calendar;
+import java.util.Arrays;
 
 /**
  * @author p-v
@@ -51,13 +51,15 @@ public class WeekdayNameDisplayAdapter extends ArrayAdapter<WeekdayNameDisplayAd
             weekdayName = weekDay.displayValue;
         }
         cellView.setText(weekdayName);
+        cellView.setTextColor(getContext().getResources().getColor(R.color.dark_blue));
         return cellView;
     }
 
     private void initializeWeekDays(int startDayOfTheWeek){
         DateFormatSymbols symbols = new DateFormatSymbols(FlexibleCalendarHelper.getLocale(getContext()));
-        String[] weekDayList = symbols.getShortWeekdays(); // weekday list has 8 elements
+        String[] weekDayList = {"","S","M","T","W","T","F","S"};//symbols.getShortWeekdays(); // weekday list has 8 elements
         weekDayArray = new WeekDay[7];
+        Log.v("weekDayList", Arrays.toString(weekDayList));
         //reordering array based on the start day of the week
         for(int i = 1; i<weekDayList.length; i++){
             WeekDay weekDay = new WeekDay();

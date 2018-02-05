@@ -2,6 +2,7 @@ package com.p_v.flexiblecalendar.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Typeface;
 import android.support.annotation.IntDef;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -103,7 +104,11 @@ public abstract class BaseCellView extends TextView {
         TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.FlexibleCalendarView);
         try {
             int color = a.getColor(R.styleable.FlexibleCalendarView_day_text_color, 0);
-            Log.v("color", "date " + color + " " + DATE_COLOR);
+            Log.v("color", "Base Cell " + color);
+            DATE_COLOR = color;
+            setTypeface(null, Typeface.BOLD);
+
+            // setTextColor(DATE_COLOR);
         } finally {
             a.recycle();
         }
@@ -121,4 +126,5 @@ public abstract class BaseCellView extends TextView {
     public int getDATE_COLOR() {
         return DATE_COLOR;
     }
+
 }

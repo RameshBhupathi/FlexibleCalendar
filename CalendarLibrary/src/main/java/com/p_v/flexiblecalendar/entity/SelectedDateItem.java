@@ -1,5 +1,6 @@
 package com.p_v.flexiblecalendar.entity;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -71,6 +72,13 @@ public class SelectedDateItem {
     public Date getDateTime() {
         Calendar calendar = Calendar.getInstance();
         calendar.set(year, month, day);
+
         return calendar.getTime();
+    }
+
+    @Override
+    public String toString() {
+        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
+        return simpleDateFormat.format(getDateTime());
     }
 }
