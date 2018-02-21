@@ -202,6 +202,7 @@ public class FlexibleCalendarView extends LinearLayout implements
     private boolean decorateDatesOutsideMonth;
     private boolean disableAutoDateSelection;
 
+    public static String careTypeName="";
     /*flag to enable/disable current day selection
   * set true disable current day selection*/
     private boolean disableTodaySelection;

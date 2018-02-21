@@ -108,7 +108,6 @@ public abstract class BaseCellView extends TextView {
             DATE_COLOR = color;
             setTypeface(null, Typeface.BOLD);
 
-            // setTextColor(DATE_COLOR);
         } finally {
             a.recycle();
         }

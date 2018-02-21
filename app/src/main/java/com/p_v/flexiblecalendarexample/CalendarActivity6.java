@@ -11,7 +11,9 @@ import android.widget.TextView;
 
 import com.p_v.flexiblecalendar.FiniteFlexibleCalendarView;
 import com.p_v.flexiblecalendar.FlexibleCalendarView;
+import com.p_v.flexiblecalendar.entity.CalendarEvent;
 import com.p_v.flexiblecalendar.entity.Event;
+import com.p_v.flexiblecalendar.entity.SelectedDateItem;
 import com.p_v.flexiblecalendar.entity.VacancyDay;
 import com.p_v.flexiblecalendar.view.BaseCellView;
 
@@ -36,7 +38,7 @@ public class CalendarActivity6 extends AppCompatActivity {
 
         monthTextView = (TextView) findViewById(R.id.month_text_view);
 
-        calendarView.setStartDayOfTheWeek(Calendar.MONDAY);
+        calendarView.setStartDayOfTheWeek(Calendar.SUNDAY);
         leftArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,9 +66,9 @@ public class CalendarActivity6 extends AppCompatActivity {
         cal.set(calendarView.getSelectedDateItem().getYear(), calendarView.getSelectedDateItem().getMonth(), 1);
         monthTextView.setText(cal.getDisplayName(Calendar.MONTH,
                 Calendar.LONG, Locale.ENGLISH) + " " + calendarView.getSelectedDateItem().getYear());
-        calendarView.setShowDatesOutsideMonth(false);
-        calendarView.setDisableAutoDateSelection(true);
-        calendarView.setDisableTodaySelection(true);
+        calendarView.setShowDatesOutsideMonth(true);
+        calendarView.setDisableAutoDateSelection(false);
+        calendarView.setDisableTodaySelection(false);
         calendarView.setEnableRangeSelection(false);
         calendarView.setCalendarView(new FlexibleCalendarView.CalendarView() {
             @Override
@@ -75,7 +77,6 @@ public class CalendarActivity6 extends AppCompatActivity {
                 if (cellView == null) {
                     LayoutInflater inflater = LayoutInflater.from(CalendarActivity6.this);
                     cellView = (BaseCellView) inflater.inflate(R.layout.calendar6_date_cell_view, null);
-                    //cellView.setTextColor(getResources().getColor(R.color.date_color));
                 }
                 return cellView;
             }
@@ -93,8 +94,15 @@ public class CalendarActivity6 extends AppCompatActivity {
 
         calendarView.setOnDateClickListener(new FiniteFlexibleCalendarView.OnDateClickListener() {
             @Override
-            public void onDateClick(int year, int month, int day, BaseCellView baseCellView) {
+            public void onDateClick(final int year, final int month, final int day, BaseCellView baseCellView) {
 
+                calendarView.setEventDataProvider(new FiniteFlexibleCalendarView.EventDataProvider() {
+                    @Override
+                    public List<? extends Event> getEventsForTheDay(int eventYear, int eventMonth, int eventDay) {
+
+                        return createEvent(eventYear, eventMonth, eventDay);
+                    }
+                });
                /* Tooltip.Builder builder = new Tooltip.Builder(baseCellView)
                         .setCornerRadius(10f)
                         .setGravity(Gravity.BOTTOM)
@@ -116,19 +124,28 @@ public class CalendarActivity6 extends AppCompatActivity {
             }
         });
 */
-       calendarView.setMaxValue(10);
+        calendarView.setMaxValue(10);
         calendarView.setVacancyDataProvider(new FiniteFlexibleCalendarView.VacancyDataProvider() {
             @Override
             public List<? extends VacancyDay> getVacancyForTheDay(int year, int month, int day) {
                 List<VacancyDay> eventList = new ArrayList<>();
                 Log.v("get Vac Day", year + " " + month + " " + day);
-                if (month == 0 && day > 10 && day < 15) {
+                SelectedDateItem selectedDateItem = new SelectedDateItem(year, month, day);
+
+                String weekday = selectedDateItem.getDayOfWeek();
+                Log.v(" weekday", weekday);
+                if (weekday.equals("Sunday") || weekday.equals("Saturday")) {
+                    VacancyDay vacancyDay = new VacancyDay();
+                    vacancyDay.setVacDayType(BaseCellView.PREVIOUS_DATE);
+                    eventList.add(vacancyDay);
+                }
+                if (month == 2 && day > 10 && day < 15) {
                     VacancyDay vacancyDay = new VacancyDay();
                     vacancyDay.setVacDayType(BaseCellView.VACANCY_AVAILABLE);
                     eventList.add(vacancyDay);
 
                 }
-                if (month == 0 && day > 20 && day <= 25) {
+                if (month == 2 && day > 20 && day <= 25) {
 
                     VacancyDay vacancyDay = new VacancyDay();
                     vacancyDay.setVacDayType(BaseCellView.VACANCY_NOT_AVAILABLE);
@@ -141,7 +158,24 @@ public class CalendarActivity6 extends AppCompatActivity {
                 return null;
             }
         });
+        final Calendar todayCalendar=Calendar.getInstance();
+        calendarView.setEventDataProvider(new FiniteFlexibleCalendarView.EventDataProvider() {
+            @Override
+            public List<? extends Event> getEventsForTheDay(int eventYear, int eventMonth, int eventDay) {
 
+                return createEvent(todayCalendar.get(Calendar.YEAR),
+                        todayCalendar.get(Calendar.MONTH), todayCalendar.get(Calendar.DAY_OF_MONTH));
+            }
+        });
+
+    }
+
+    private List<CalendarEvent> createEvent(int selectedYear, int selectedMonthOfYear, int selectedDayOfMonth) {
+        List<CalendarEvent> colorLst = new ArrayList<>();
+        CalendarEvent event = (new CalendarEvent(selectedYear, selectedMonthOfYear, selectedDayOfMonth));
+        event.setColor(android.R.color.holo_red_dark);
+        colorLst.add(event);
+        return colorLst;
     }
 
     public void showSelectedDates(View view) {
@@ -154,7 +188,7 @@ public class CalendarActivity6 extends AppCompatActivity {
 
         @Override
         public int getColor() {
-            return R.color.vac_absent_color;
+            return R.color.black;
         }
     }
 }

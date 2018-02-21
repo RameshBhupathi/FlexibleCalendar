@@ -5,4 +5,9 @@
         android:width="2dp"
         android:color="@color/gray_100" />
     <solid android:color="@color/light_blue_100" />
+    <corners
+        android:bottomLeftRadius="@dimen/cell_corner_radius"
+        android:bottomRightRadius="@dimen/cell_corner_radius"
+        android:topLeftRadius="@dimen/cell_corner_radius"
+        android:topRightRadius="@dimen/cell_corner_radius" />
 </shape>

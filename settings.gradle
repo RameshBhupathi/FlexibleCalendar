@@ -1,1 +1,1 @@
-include ':app', ':CalendarLibrary'
+include ':app', ':CalendarLibrary', ':library'

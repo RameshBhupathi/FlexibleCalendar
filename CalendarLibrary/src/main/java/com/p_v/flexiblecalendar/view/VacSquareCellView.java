@@ -4,15 +4,12 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.util.Log;
 
-import com.p_v.flexiblecalendar.entity.Event;
 import com.p_v.flexiblecalendar.entity.VacancyDay;
 import com.p_v.fliexiblecalendar.R;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by apple on 03/01/18.
@@ -30,6 +27,7 @@ public class VacSquareCellView extends SquareCellView {
 
     public VacSquareCellView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        //setTextSize(16);
         //   init(attrs);
     }
 
@@ -46,39 +44,30 @@ public class VacSquareCellView extends SquareCellView {
         else if (state == STATE_TODAY)
             setTextColor(getResources().getColor(R.color.regular_day_text_color));
         else if (state == STATE_PREVIOUS_DATE)
-            setTextColor(getResources().getColor(R.color.previous_day_text_color));
+            setTextColor(getResources().getColor(R.color.gains_boro));
+
         else if (state == STATE_REGISTERED_ABSENCE)
             setTextColor(getResources().getColor(R.color.selected_day_text_color));
+
         else if (state == STATE_REGISTERED_CARE)
-            setTextColor(getResources().getColor(R.color.regular_day_text_color));
+            setTextColor(getResources().getColor(R.color.gray_eclipse));
+
+        else if (state == BaseCellView.VACANCY_AVAILABLE)
+            setTextColor(getResources().getColor(R.color.selected_day_text_color));
+
+        else if (state == BaseCellView.VACANCY_NOT_AVAILABLE)
+            setTextColor(getResources().getColor(R.color.selected_day_text_color));
         else if (state == STATE_OUTSIDE_MONTH)
-            setTextColor(getResources().getColor(R.color.previous_day_text_color));
+            setTextColor(getResources().getColor(R.color.gains_boro));
         else if (state == STATE_REGULAR)
             setTextColor(getResources().getColor(R.color.regular_day_text_color));
     }
 
-    @Override
-    public void setEvents(List<? extends Event> colorList) {
-       /* if (colorList != null) {
-            Log.v("setEvents", "" + colorList.size());
-            paintList = new ArrayList<>(colorList.size());
-            for (Event e : colorList) {
-                Paint eventPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-                eventPaint.setStyle(Paint.Style.FILL);
-                eventPaint.setColor(getContext().getResources().getColor(e.getColor()));
-                paintList.add(eventPaint);
-            }
-            invalidate();
-            requestLayout();
-        }*/
-    }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        Set<Integer> stateSet = getStateSet();
-        Log.v("color", "vac square " + getDATE_COLOR());
-        // setTextColor(getDATE_COLOR());
+
     }
 
 

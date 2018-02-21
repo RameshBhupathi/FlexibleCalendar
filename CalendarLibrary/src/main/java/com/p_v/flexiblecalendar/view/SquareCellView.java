@@ -7,7 +7,6 @@ import android.util.AttributeSet;
 import android.util.Log;
 
 import com.p_v.flexiblecalendar.entity.VacancyDay;
-import com.p_v.fliexiblecalendar.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,10 +58,10 @@ public class SquareCellView extends CircularEventCellView {
                 Paint eventPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
                 eventPaint.setStyle(Paint.Style.FILL);
 
-                if (vacancyDay.getVacDayType() == BaseCellView.REGISTERED_ABSENCE)
+              /*  if (vacancyDay.getVacDayType() == BaseCellView.REGISTERED_ABSENCE)
                     eventPaint.setColor(getContext().getResources().getColor(R.color.vac_absent_color));
                 else
-                    eventPaint.setColor(getContext().getResources().getColor(R.color.vac_registered_color));
+                    eventPaint.setColor(getContext().getResources().getColor(R.color.vac_registered_color));*/
                 paintList.add(eventPaint);
             }
             invalidate();

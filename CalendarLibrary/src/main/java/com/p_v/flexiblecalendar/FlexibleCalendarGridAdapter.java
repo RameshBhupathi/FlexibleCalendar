@@ -1,6 +1,9 @@
 package com.p_v.flexiblecalendar;
 
 import android.content.Context;
+import android.graphics.Typeface;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.util.Log;
 import android.util.MonthDisplayHelper;
 import android.view.Gravity;
@@ -48,6 +51,7 @@ class FlexibleCalendarGridAdapter extends BaseAdapter {
     private boolean enableRangeSelection;
     public static boolean isRangeSelected;
     public static List<SelectedDateItem> userSelectedDateItems;
+
     private static final int SIX_WEEK_DAY_COUNT = 42;
 
 
@@ -145,8 +149,8 @@ class FlexibleCalendarGridAdapter extends BaseAdapter {
                                 && userSelectedDateItem.getMonth() == month
                                 && userSelectedDateItem.getDay() == day) {
                             //selected
-                            if (!enableRangeSelection)
-                                cellType = BaseCellView.SELECTED;
+                            //if (!enableRangeSelection)
+                            cellType = BaseCellView.SELECTED;
 
                         }
                     } else {
@@ -179,10 +183,9 @@ class FlexibleCalendarGridAdapter extends BaseAdapter {
                     }
                 }
             }
-        }
-        else {
-           // cellType=BaseCellView.PREVIOUS_DATE;
-            Log.v("isWithinCurrentMonth","Not");
+        } else {
+            // cellType=BaseCellView.PREVIOUS_DATE;
+            Log.v("isWithinCurrentMonth", "Not");
         }
         // }
         BaseCellView cellView = cellViewDrawer.getCellView(position, convertView, parent, cellType);
@@ -195,7 +198,7 @@ class FlexibleCalendarGridAdapter extends BaseAdapter {
             }
         }
         drawDateCell(cellView, day, cellType);
-        Log.v("day cellType", "" +day+" "+ cellType);
+        Log.v("day cellType", "" + day + " " + cellType);
         return cellView;
     }
 
@@ -227,7 +230,7 @@ class FlexibleCalendarGridAdapter extends BaseAdapter {
                     cellView.addState(BaseCellView.STATE_SELECTED);
                     break;
                 case BaseCellView.PREVIOUS_DATE:
-                    Log.v("Case", "BaseCellView.PREVIOUS_DATE"+cellType+ " "+currentCellDate.toString());
+                    Log.v("Case", "BaseCellView.PREVIOUS_DATE" + cellType + " " + currentCellDate.toString());
                     cellView.addState(BaseCellView.STATE_PREVIOUS_DATE);
                     break;
                 case BaseCellView.REGISTERED_ABSENCE:
@@ -235,23 +238,34 @@ class FlexibleCalendarGridAdapter extends BaseAdapter {
                     cellView.addState(BaseCellView.STATE_REGISTERED_ABSENCE);
                     break;
                 case BaseCellView.REGISTERED_CARE:
-                    Log.v("Case", "BaseCellView.PREVIOUS_DATE");
-                    if (userSelectedDateItems != null && userSelectedDateItems.size() > 0) {
-                        if (userSelectedDateItems.contains(currentCellDate)) {
-                            cellView.addState(BaseCellView.STATE_SELECTED);
-                        }
-                        else
-                            cellView.addState(BaseCellView.STATE_REGISTERED_CARE);
+                    if (userSelectedDateItems != null && userSelectedDateItems.size() > 0 &&
+                            userSelectedDateItems.contains(currentCellDate)) {
+                        cellView.addState(BaseCellView.STATE_SELECTED);
                     } else
                         cellView.addState(BaseCellView.STATE_REGISTERED_CARE);
                     break;
+
                 case BaseCellView.VACANCY_AVAILABLE:
-                    Log.v("Case", "BaseCellView.PREVIOUS_DATE");
+                    /*if (userSelectedDateItem != null && userSelectedDateItem.equals(currentCellDate)) {
+                        cellView.addState(BaseCellView.STATE_SELECTED);
+                        Log.v("Case", "BaseCellView.STATE_SELECTED" + "STATE_VACANCY_CARE_AVAILABLE " + currentCellDate);
+                    } else {*/
+                    if (userSelectedDateItem != null && userSelectedDateItem.equals(currentCellDate))
+                        cellView.addState(BaseCellView.STATE_SELECTED);
                     cellView.addState(BaseCellView.STATE_VACANCY_CARE_AVAILABLE);
+                    Log.v("Case", "STATE_VACANCY_CARE_AVAILABLE " + currentCellDate);
+                    // }
                     break;
                 case BaseCellView.VACANCY_NOT_AVAILABLE:
-                    Log.v("Case", "BaseCellView.PREVIOUS_DATE");
+                  /*  if (userSelectedDateItem != null && userSelectedDateItem.equals(currentCellDate)) {
+                        cellView.addState(BaseCellView.STATE_SELECTED);
+                        Log.v("Case", "BaseCellView.STATE_SELECTED" + "STATE_VACANCY_CARE_NOT_AVAILABLE " + currentCellDate);
+                    } else*/
+                    if (userSelectedDateItem != null && userSelectedDateItem.equals(currentCellDate))
+                        cellView.addState(BaseCellView.STATE_SELECTED);
                     cellView.addState(BaseCellView.STATE_VACANCY_CARE_NOT_AVAILABLE);
+                    Log.v("Case", "STATE_VACANCY_CARE_NOT_AVAILABLE " + currentCellDate);
+
                     break;
                 default:
                     cellView.addState(BaseCellView.STATE_REGULAR);
@@ -317,14 +331,35 @@ class FlexibleCalendarGridAdapter extends BaseAdapter {
             } else if (cellTYpe == BaseCellView.REGISTERED_ABSENCE) {
                 Log.v("Selected", "" + cellTYpe);
                 if (onDateCellItemClickListener != null) {
+
+                    Typeface font = Typeface.createFromAsset(v.getContext().getAssets(), "montserrat_bold.ttf");
+                    Typeface font2 = Typeface.createFromAsset(v.getContext().getAssets(), "montserrat_regular.ttf");
+
+                    String str1 = "Absence Confirmed, " +
+                            selectedItem.getToolTipDateFormatString() + "\n";
+                    String str2 = (str1 + FlexibleCalendarView.careTypeName);
+
+                    SpannableString absenceInfo = new SpannableString(str2);
+
+
+                    absenceInfo.setSpan(new CustomTypefaceSpan("", font), 0,
+                            str1.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+
+                    absenceInfo.setSpan(new CustomTypefaceSpan("", font2), str1.length(),
+                            absenceInfo.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+
                     Tooltip.Builder builder = new Tooltip.Builder(baseCellView)
-                            .setCornerRadius(10f)
+                            .setMargin(context.getResources().getDimension(R.dimen.zero))
+                            .setCornerRadius(context.getResources().getDimension(R.dimen.twenty))
                             .setGravity(Gravity.BOTTOM)
                             .setCancelable(true)
-                            .setBackgroundColor(context.getResources().getColor(R.color.date_color))
-                            .setText(String.valueOf("It is yet another very simple tool tip!"));
+                            .setLineSpacing(context.getResources().getDimension(R.dimen.line_space),
+                                    context.getResources().getDimension(R.dimen.line_space))
+                            .setTextColor(context.getResources().getColor(R.color.white))
+                            .setBackgroundColor(context.getResources().getColor(R.color.gray_eclipse))
+                            .setText(absenceInfo)
+                            .setPadding(context.getResources().getDimension(R.dimen.ten));
                     builder.show();
-                    //onDateCellItemClickListener.onDateClick(selectedItem,baseCellView);
                 }
             } else {
                 Calendar today = Calendar.getInstance();
@@ -516,4 +551,5 @@ class FlexibleCalendarGridAdapter extends BaseAdapter {
             return selectedDateItem.getDateTime().compareTo(t1.getDateTime());
         }
     };
+
 }

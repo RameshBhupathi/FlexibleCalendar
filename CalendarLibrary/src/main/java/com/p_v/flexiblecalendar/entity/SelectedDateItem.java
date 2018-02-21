@@ -1,5 +1,9 @@
 package com.p_v.flexiblecalendar.entity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -7,7 +11,7 @@ import java.util.Date;
 /**
  * @author p-v
  */
-public class SelectedDateItem {
+public class SelectedDateItem implements Parcelable {
 
     private int day;
     private int month;
@@ -78,7 +82,48 @@ public class SelectedDateItem {
 
     @Override
     public String toString() {
-        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         return simpleDateFormat.format(getDateTime());
+    }
+
+    public String getToolTipDateFormatString() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMM yyyy");
+        return simpleDateFormat.format(getDateTime());
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.day);
+        dest.writeInt(this.month);
+        dest.writeInt(this.year);
+    }
+
+    protected SelectedDateItem(Parcel in) {
+        this.day = in.readInt();
+        this.month = in.readInt();
+        this.year = in.readInt();
+    }
+
+    public static final Parcelable.Creator<SelectedDateItem> CREATOR = new Parcelable.Creator<SelectedDateItem>() {
+        @Override
+        public SelectedDateItem createFromParcel(Parcel source) {
+            return new SelectedDateItem(source);
+        }
+
+        @Override
+        public SelectedDateItem[] newArray(int size) {
+            return new SelectedDateItem[size];
+        }
+    };
+
+    public String getDayOfWeek() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(getDateTime());
+        return DateFormatSymbols.getInstance().getWeekdays()[calendar.get(Calendar.DAY_OF_WEEK)];
     }
 }

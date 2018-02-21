@@ -5,4 +5,4 @@
     android:gravity="center"
     android:background="@drawable/cell_background"
     android:layout_height="match_parent"
-    app:day_text_color="@color/dark_blue" />
+    app:day_text_color="@color/dark_sky_blue" />

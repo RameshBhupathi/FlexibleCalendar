@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="rectangle">
+    android:shape="rectangle" >
     <stroke
-        android:width="2dp"
-        android:color="@color/gray_200" />
+        android:width="@dimen/cell_view_border"
+        android:color="@color/cell_view_border"
+        />
     <solid android:color="@android:color/white" />
+
+
+    <!--<corners
+        android:bottomLeftRadius="@dimen/cell_corner_radius"
+        android:bottomRightRadius="@dimen/cell_corner_radius"
+        android:topLeftRadius="@dimen/cell_corner_radius"
+        android:topRightRadius="@dimen/cell_corner_radius" />-->
 </shape>

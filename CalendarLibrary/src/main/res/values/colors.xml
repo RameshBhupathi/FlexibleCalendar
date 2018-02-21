@@ -2,22 +2,42 @@
 <resources>
     <color name="green">#99CC33</color>
     <color name="black">#000000</color>
-    <color name="sky_blue">#A1F5FF</color>
+    <color name="gray_50">#FAFAFA</color>
     <color name="gray_100">#F5F5F5</color>
-    <color name="gray_200">#EEEEEE</color>
+    <color name="gray_200">#E6E6E6</color>
+    <color name="gray_300">#E0E0E0</color>
+    <color name="gray_400">#BDBDBD</color>
+    <color name="gray_800">#424242</color>
+
+
     <color name="date_color">#6A6D6E</color>
-    <color name="vac_registered_color">#E6E6E6</color>
     <color name="vac_absent_color">#00B8E6</color>
-    <color name="previous_dates_color">#C4C4C4</color>
-    <color name="week_day_color">#0089AB</color>
+    <color name="vac_registered_color">@color/gray_200</color>
+    <color name="week_day_color">@color/dark_sky_blue</color>
+
     <color name="white">#ffffff</color>
-    <color name="pink">#f650a0</color>
+
+    <color name="pink">#E53590</color>
     <color name="light_blue_100">#8DC7CD</color>
-    <color name="dark_blue">#0089AB</color>
+    <color name="dark_sky_blue">#0089AF</color>
+    <color name="deep_sky_blue">#00B8EB</color>
+     <color name="vista_blue">#8BCFB0</color>
+    <color name="deep_sea">#147D8C</color>
+    <color name="fountain_blue">#67AEB8</color>
+    <color name="morning_glory">#92C8CF</color>
+    <color name="gains_boro">#E6E6E6</color>
+    <color name="gray_eclipse">#373737</color>
+    <color name="calendar_background">#F1F1F1</color>
+    
+    
+    <color name="previous_day_text_color">@color/gray_400</color>
 
-    <color name="previous_day_text_color">#C4C4C4</color>
-
-    <color name="regular_day_text_color">#6B6D6E</color>
-
+    <color name="out_of_month_day_text_color">@color/gray_200</color>
+    <color name="regular_day_text_color">@color/gray_eclipse</color>
     <color name="selected_day_text_color">@color/white</color>
+
+    <color name="cell_view_border">@color/calendar_background</color>
+
+
+
 </resources>

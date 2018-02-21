@@ -51,7 +51,7 @@ public class WeekdayNameDisplayAdapter extends ArrayAdapter<WeekdayNameDisplayAd
             weekdayName = weekDay.displayValue;
         }
         cellView.setText(weekdayName);
-        cellView.setTextColor(getContext().getResources().getColor(R.color.dark_blue));
+        cellView.setTextColor(getContext().getResources().getColor(R.color.dark_sky_blue));
         return cellView;
     }
 

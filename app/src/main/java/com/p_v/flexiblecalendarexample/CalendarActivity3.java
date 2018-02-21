@@ -12,6 +12,7 @@ import android.widget.DatePicker;
 import android.widget.Toast;
 
 import com.p_v.flexiblecalendar.FlexibleCalendarView;
+import com.p_v.flexiblecalendar.entity.CalendarEvent;
 import com.p_v.flexiblecalendar.exception.HighValueException;
 import com.p_v.flexiblecalendar.view.BaseCellView;
 
@@ -23,22 +24,27 @@ import java.util.Map;
 
 public class CalendarActivity3 extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
-    private Map<Integer, List<CustomEvent>> eventMap;
+    private Map<Integer, List<CalendarEvent>> eventMap;
     private FlexibleCalendarView calendarView;
 
     private void initializeEvents() {
         eventMap = new HashMap<>();
-        List<CustomEvent> colorLst = new ArrayList<>();
-        colorLst.add(new CustomEvent(android.R.color.holo_red_dark));
-        eventMap.put(25, colorLst);
+        List<CalendarEvent> colorLst = new ArrayList<>();
+        CalendarEvent event = (new CalendarEvent(2018, 1, 28));
+        event.setColor(android.R.color.holo_red_dark);
+        colorLst.add(event);
+        eventMap.put(28, colorLst);
 
-        List<CustomEvent> colorLst1 = new ArrayList<>();
-        colorLst1.add(new CustomEvent(android.R.color.holo_red_dark));
-        colorLst1.add(new CustomEvent(android.R.color.holo_blue_light));
-        colorLst1.add(new CustomEvent(android.R.color.holo_purple));
+        List<CalendarEvent> colorLst1 = new ArrayList<>();
+        CalendarEvent calendarEvent = (new CalendarEvent(2018, 1, 22));
+        calendarEvent.setColor(android.R.color.holo_red_dark);
+        colorLst1.add(calendarEvent);
+  /*      colorLst1.add(new CalendarEvent(android.R.color.holo_red_dark));
+        colorLst1.add(new CalendarEvent(android.R.color.holo_blue_light));
+        colorLst1.add(new CustomEvent(android.R.color.holo_purple));*/
         eventMap.put(22, colorLst1);
 
-        List<CustomEvent> colorLst2 = new ArrayList<>();
+      /*  List<CustomEvent> colorLst2 = new ArrayList<>();
         colorLst2.add(new CustomEvent(android.R.color.holo_red_dark));
         colorLst2.add(new CustomEvent(android.R.color.holo_blue_light));
         colorLst2.add(new CustomEvent(android.R.color.holo_purple));
@@ -47,7 +53,7 @@ public class CalendarActivity3 extends AppCompatActivity implements DatePickerDi
         List<CustomEvent> colorLst3 = new ArrayList<>();
         colorLst3.add(new CustomEvent(android.R.color.holo_red_dark));
         colorLst3.add(new CustomEvent(android.R.color.holo_blue_light));
-        eventMap.put(29, colorLst1);
+        eventMap.put(29, colorLst1);*/
     }
 
     @Override
@@ -94,20 +100,14 @@ public class CalendarActivity3 extends AppCompatActivity implements DatePickerDi
             }
         });
 
-        calendarView.setEventDataProvider(new FlexibleCalendarView.EventDataProvider() {
-            @Override
-            public List<CustomEvent> getEventsForTheDay(int year, int month, int day) {
-                return getEvents(year, month, day);
-            }
-        });
 
         findViewById(R.id.update_events_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<CustomEvent> colorLst1 = new ArrayList<>();
-                colorLst1.add(new CustomEvent(android.R.color.holo_red_dark));
-                colorLst1.add(new CustomEvent(android.R.color.holo_blue_light));
-                colorLst1.add(new CustomEvent(android.R.color.holo_purple));
+                List<CalendarEvent> colorLst1 = new ArrayList<>();
+                colorLst1.add(new CalendarEvent(android.R.color.holo_red_dark));
+                colorLst1.add(new CalendarEvent(android.R.color.holo_blue_light));
+                colorLst1.add(new CalendarEvent(android.R.color.holo_purple));
                 eventMap.put(2, colorLst1);
                 calendarView.refresh();
             }
@@ -124,9 +124,32 @@ public class CalendarActivity3 extends AppCompatActivity implements DatePickerDi
 
             }
         });
+        calendarView.setOnDateClickListener(new FlexibleCalendarView.OnDateClickListener() {
+            @Override
+            public void onDateClick(final int selectedYear, final int selectedMonthOfYear, final int selectedDayOfMonth, BaseCellView baseCellView) {
+
+                calendarView.setEventDataProvider(new FlexibleCalendarView.EventDataProvider() {
+                    @Override
+                    public List<CalendarEvent> getEventsForTheDay(int year, int month, int day) {
+                        return createEvent(selectedYear, selectedMonthOfYear, selectedDayOfMonth);
+                    }
+                });
+            }
+        });
+
+
+
     }
 
-    public List<CustomEvent> getEvents(int year, int month, int day) {
+    private List<CalendarEvent> createEvent(int selectedYear, int selectedMonthOfYear, int selectedDayOfMonth) {
+        List<CalendarEvent> colorLst = new ArrayList<>();
+        CalendarEvent event = (new CalendarEvent(selectedYear, selectedMonthOfYear, selectedDayOfMonth));
+        event.setColor(android.R.color.holo_red_dark);
+        colorLst.add(event);
+        return colorLst;
+    }
+
+    public List<CalendarEvent> getEvents(int year, int month, int day) {
         return eventMap.get(day);
     }
 
@@ -153,11 +176,14 @@ public class CalendarActivity3 extends AppCompatActivity implements DatePickerDi
     }
 
     @Override
-    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+    public void onDateSet(DatePicker view, final int selectedYear, final int selectedMonthOfYear, final int selectedDayOfMonth) {
         try {
-            calendarView.selectDate(year, monthOfYear, dayOfMonth);
+            calendarView.selectDate(selectedYear, selectedMonthOfYear, selectedDayOfMonth);
+
         } catch (HighValueException e) {
             e.printStackTrace();
         }
     }
+
+
 }
